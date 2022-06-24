@@ -24,6 +24,16 @@ exports.store = async (req, res, next) => {
 
         fournisseur.phone = req.body.phone;
 
+        fournisseur.description = req.body.description;
+        
+        fournisseur.avatar = req.body.avatar;
+        
+        fournisseur.cover = req.body.cover;
+        
+        fournisseur.nameShop = req.body.nameShop;
+        
+        fournisseur.slogan = req.body.slogan;
+
         fournisseur.password = passwordCrypt;
 
         fournisseur.passwords = [passwordCrypt];

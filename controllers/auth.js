@@ -119,7 +119,7 @@ exports.auth = async  ( req, res ,_ ) => {
                 statusCode: 401
             });
         }
-    }).catch(_ => {
+    }).catch(error => {
         return res.json({
             message: 'Identifiant des  Incorrect',
             status: 'NOT OK',

@@ -40,7 +40,7 @@ const products = require('./routes/products');
 
 
 
-app.use('/v1/api/auth'  , authRouter)
+app.use('/v1/api/users'  , authRouter)
 
 app.use('/v1/api/client'  ,commercanteRouter);
 
