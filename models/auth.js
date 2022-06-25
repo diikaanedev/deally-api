@@ -47,7 +47,7 @@ const UserModel = new Schema({
 
     nameShop : {
         type: String,
-        default:""
+        default : ""
     },
 
     firstName  : {
@@ -106,7 +106,6 @@ const UserModel = new Schema({
         ref: "callFund",
         default : []
     }],
-
 
 
     token : {
