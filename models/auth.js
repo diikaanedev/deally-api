@@ -47,7 +47,6 @@ const UserModel = new Schema({
 
     nameShop : {
         type: String,
-        required : true,
         unique : true
     },
 
