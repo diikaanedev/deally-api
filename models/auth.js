@@ -24,6 +24,12 @@ const UserModel = new Schema({
         default: 'admin'
     },
 
+    sexe: {
+        type : String,
+        enum: ['homme', 'femme'],
+        default: 'homme'
+    },
+
     description : {
         type: String,
         default :""
