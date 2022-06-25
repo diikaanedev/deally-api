@@ -51,14 +51,24 @@ const UserModel = new Schema({
         unique : true
     },
 
-    slogan  : {
+    firstName  : {
+        type : String,
+        default :""
+    },
+
+    lastName  : {
         type : String,
         default :""
     },
 
     contry : {
         type : String,
-        default :"NG"
+        default :"Nigeria"
+    },
+
+    city : {
+        type : String,
+        default :""
     },
 
     address : [{
@@ -82,9 +92,9 @@ const UserModel = new Schema({
         ref: "transaction"
     }],
 
-    isNewShop : {
+    hasAcceptedNewsletter : {
         type : Boolean,
-        default : true
+        default : false
     },
 
     solde: {
