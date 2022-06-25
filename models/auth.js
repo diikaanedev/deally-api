@@ -20,9 +20,78 @@ const UserModel = new Schema({
     
     role: {
         type : String,
-        enum: ['admin', 'super'],
+        enum: ['admin', 'super', 'fournisseur', 'commercant', 'transporteur'],
         default: 'admin'
     },
+
+    description : {
+        type: String,
+        default :""
+    },
+
+    avatar : {
+        type: Schema.Types.ObjectId,
+        ref: "file"
+    },
+    
+    cover : {
+        type: Schema.Types.ObjectId,
+        ref: "file"
+    },
+
+    nameShop : {
+        type: String,
+        required : true,
+        unique : true
+    },
+
+    slogan  : {
+        type : String,
+        default :""
+    },
+
+    contry : {
+        type : String,
+        default :"NG"
+    },
+
+    address : [{
+        type: Schema.Types.ObjectId,
+        ref: "address"
+    }],
+
+     
+    products : [{
+        type: Schema.Types.ObjectId,
+        ref: "products"
+    }],
+    
+    orders : [{
+        type: Schema.Types.ObjectId,
+        ref: "order"
+    }],
+
+    transactions : [{
+        type: Schema.Types.ObjectId,
+        ref: "transaction"
+    }],
+
+    isNewShop : {
+        type : Boolean,
+        default : true
+    },
+
+    solde: {
+        type  : String ,
+        default :'0'
+    },
+
+    callFund : [{
+        type: Schema.Types.ObjectId,
+        ref: "callFund",
+        default : []
+    }],
+
 
 
     token : {
