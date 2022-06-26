@@ -1,4 +1,5 @@
 const filesModel = require('../models/file');
+const { base64 } = require('../utils/base64');
 const uploadFileAws  = require('../utils/s3');
 
 exports.store = async (req, res ,next ) => {
@@ -10,13 +11,9 @@ exports.store = async (req, res ,next ) => {
     try {
 
 
-
-        const result = await uploadFileAws.uploadFile(req.file);
-
-
         const file =  filesModel();
     
-        file.url = result.fileName;
+        file.url =await  base64(req.body.image);
         
         file.user = req.user.id;
     

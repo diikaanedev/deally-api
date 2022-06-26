@@ -1,5 +1,21 @@
+const mime = require('mime');
+const uid = require('uid');
+const S3 = require('aws-sdk/clients/s3');
 
-exports.base64 = base => {
+
+const bucketName = process.env.AWS_BUCKET
+const region = process.env.AWS_BUCKET_REGION
+const accessKeyId = process.env.AWS_ACCESS_KEY
+const secretAccessKey = process.env.AWS_SECRET_KEY
+
+const s3 = new S3({
+    region,
+    accessKeyId,
+    secretAccessKey
+  })
+  
+
+exports.base64 =  async (base) => {
 
     if (base === undefined) {
         return false;
@@ -28,62 +44,27 @@ exports.base64 = base => {
 
         let extension = mime.getExtension(type);
 
-        let fileName = randomStrig.generate({
-            length: 12,
-            charset: 'alphabetic'
-        });
+        let fileName = uid.uid();
 
 
 
-        const pa = path.join(path.dirname(process.mainModule.filename), 'files/') + fileName + '.jpg';
 
-        sharp(
-            imageBuffer,
-        ).resize(300, 300).
-            toFormat('webp')
-            .toFile(`files/${fileName}-300.webp`, (err, info) => {
+        const uploadParamsNormal = {
+            Bucket: bucketName,
+            Body: imageBuffer,
+            Key: 'atimex/'+fileName+'.'+extension
+          };
+      
+      
+          await  s3.upload(uploadParamsNormal).promise();
+      
+        //   fs.unlinkSync(file.path);
 
-                if (err) {
-                    console.log("err => ", err);
-                }
-
-                // console.log("info =>" , info);
-
-            });
-
-        sharp(
-            imageBuffer,
-        ).resize(180, 180).
-            toFormat('webp')
-            .toFile(`files/${fileName}-180.webp`, (err, info) => {
-
-                if (err) {
-                    console.log("err => ", err);
-                }
-
-                // console.log("info =>" , info);
-
-            });
-
-        sharp(
-            imageBuffer,
-        ).resize(100, 100).
-            toFormat('webp')
-            .toFile(`files/${fileName}-100.webp`, (err, info) => {
-
-                if (err) {
-                    console.log("err => ", err);
-                }
-
-                // console.log("info =>" , info);
-
-            });
-
-        fs.writeFileSync(pa, imageBuffer, 'utf8');
+        // fs.writeFileSync(pa, imageBuffer, 'utf8');
 
 
 
-        return `/storage/${fileName}`;
+        return `https://cac-e-shop-by-intech.s3.amazonaws.com/atimex/${fileName}.${extension}`;
 
     }
 
