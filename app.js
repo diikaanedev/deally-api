@@ -38,6 +38,8 @@ const fournisseurRouter = require('./routes/fournisseur') ;
 
 const products = require('./routes/products');
 
+const fileRouter = require('./routes/file');
+
 
 
 app.use('/v1/api/users'  , authRouter)
@@ -47,6 +49,8 @@ app.use('/v1/api/client'  ,commercanteRouter);
 app.use('/v1/api/shop'  ,fournisseurRouter);
 
 app.use('/v1/api/products'  ,products);
+
+app.use('/v1/api/files'  ,fileRouter);
 
 
 
