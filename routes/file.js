@@ -13,7 +13,7 @@ const routes = new express.Router();
 // Add routes
 routes.get('/', fileCtrl.all);
 routes.get('/:id', fileCtrl.one);
-routes.post('/', upload.single('file') ,auth,fileCtrl.store);
+routes.post('/',auth,fileCtrl.store);
 // routes.post('/all', auth,fileCtrl.storeAll);
 // routes.put('/:id', fileCtrl.update);
 routes.delete('/:id', fileCtrl.delete);
