@@ -4,23 +4,7 @@ const uploadFileAws  = require('../utils/s3');
 exports.store = async (req, res ,next ) => {
 
   
-    const result = await uploadFileAws.uploadFile(req.file);
-
-
-    const file =  filesModel();
-
-    file.url = result.fileName;
     
-    file.user = req.user.id;
-
-    const saveFile = await  file.save();
-
-    return res.json({
-        message: 'Fichier crée avec succes',
-        status: 'OK',
-        data: saveFile,
-        statusCode: 201
-    })
     
     
     try {
@@ -31,13 +15,13 @@ exports.store = async (req, res ,next ) => {
 
 
         const file =  filesModel();
-
+    
         file.url = result.fileName;
         
         file.user = req.user.id;
-
+    
         const saveFile = await  file.save();
-
+    
         return res.json({
             message: 'Fichier crée avec succes',
             status: 'OK',
