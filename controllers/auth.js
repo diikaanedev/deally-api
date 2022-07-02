@@ -32,6 +32,8 @@ exports.store = async (req , res , next) => {
     const auth = authModel() ;
   
     auth.phone = req.body.phone ;
+
+    auth.email = req.body.email ;
   
     auth.password =  passwordCrypt ;
 
@@ -94,6 +96,44 @@ exports.store = async (req , res , next) => {
 exports.auth = async  ( req, res ,_ ) => {
     if (req.body.phone != undefined) return authModel.findOne({
         phone : req.body.phone
+    }).then(result => {
+        console.log(result);
+        if (bcrytjs.compareSync(req.body.password, result.password)) {
+            const token = jwt.sign({
+                id_user: result.id,
+                role_user : result.role , 
+                phone_user : result.phone
+            }, process.env.JWT_SECRET, { expiresIn: '8784h' });
+            return res.json({
+                message: 'Connection réussssi',
+                status: 'OK',
+                data: {
+                    token ,phone: result.phone,role : result.role , 
+                    token : result.token
+                },
+                statusCode: 200
+            });
+        } else {
+            return res.json({
+                message: 'Identifiant ff  Incorrect',
+                status: 'NOT OK',
+                data:  error,
+                statusCode: 401
+            });
+        }
+    }).catch(error => {
+        return res.json({
+            message: 'Identifiant des  Incorrect',
+            status: 'NOT OK',
+            data: error,
+            statusCode: 401
+        });
+    });
+}
+
+exports.authDashbord = async  ( req, res ,_ ) => {
+    if (req.body.email != undefined) return authModel.findOne({
+        email : req.body.email
     }).then(result => {
         console.log(result);
         if (bcrytjs.compareSync(req.body.password, result.password)) {

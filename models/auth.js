@@ -9,6 +9,11 @@ const UserModel = new Schema({
         required : true,
         unique : true
     },
+
+    email: {
+        type: String,
+        unique : true
+    },
     
     password: {
         type: String,
@@ -21,7 +26,7 @@ const UserModel = new Schema({
     role: {
         type : String,
         enum: ['admin', 'super', 'fournisseur', 'commercant', 'transporteur'],
-        default: 'admin'
+        default: 'commercant'
     },
 
     sexe: {
