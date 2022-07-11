@@ -13,7 +13,7 @@ exports.store = async (req, res ,next ) => {
 
         const file =  filesModel();
     
-        file.url =await  base64(req.body.image);
+        file.url = await  base64(req.body.image);
         
         file.user = req.user.id;
     

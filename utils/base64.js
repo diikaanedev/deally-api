@@ -52,7 +52,7 @@ exports.base64 =  async (base) => {
         const uploadParamsNormal = {
             Bucket: bucketName,
             Body: imageBuffer,
-            Key: 'atimex/'+fileName+'.'+extension
+            Key: 'deally/'+fileName+'.'+extension
           };
       
       
@@ -64,7 +64,7 @@ exports.base64 =  async (base) => {
 
 
 
-        return `https://cac-e-shop-by-intech.s3.amazonaws.com/atimex/${fileName}.${extension}`;
+        return `https://cac-e-shop-by-intech.s3.amazonaws.com/deally/${fileName}.${extension}`;
 
     }
 
