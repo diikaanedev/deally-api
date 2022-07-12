@@ -1,13 +1,15 @@
 
 const  { Router } =  require('express');
 
+const authMiddleweare = require('../midleweare/auth');
+
 // import all controllers
 const productCtrl = require('../controllers/products');
 
 const routes = new Router();
 
 // Add routes
-routes.post('/', productCtrl.store);
+routes.post('/', authMiddleweare ,  productCtrl.store);
 routes.get('/', productCtrl.all);
 routes.get('/:id', productCtrl.one);
 routes.put('/:id', productCtrl.update);

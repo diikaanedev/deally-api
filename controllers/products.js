@@ -6,19 +6,13 @@ const categorieModel = require('../models/categorie');
 
 const packPriceModel = require('../models/pack_price');
 
-const shopModel = require('../models/fournisseur');
+const authModel = require('../models/auth');
 
-const product = require('../models/product');
-
-const uploadFileAws  = require('../utils/s3');
 
 
 const populateObject = [{
     path: 'category',
     select: 'title'
-}, {
-    path: 'shop',
-    select: 'nameShop'
 }, {
     path: 'address',
 },];
@@ -26,108 +20,97 @@ const populateObject = [{
 
 exports.store = async (req, res, next) => {
 
-    try {
 
-        const post = postModel();
+  
+    try {
 
         let {
             images,
-
+    
             name,
-
-            pack_price,
-
+    
+            pack_discounts,
+    
             category,
-
+    
             description,
-
+    
             address,
-
+    
             condition_concervation,
-
+    
             stock,
-
+    
             quantite_per_article,
-
+    
             publish_date } = req.body;
-
-
+    
+            console.log(images);
+    
+    
         const product = productModel();
-
+    
         product.name = name;
-
+        
+        product.images = images;
+    
         product.category = category;
-
+    
         product.description = description;
-
+    
         product.address = address;
-
+    
         product.condition_concervation = condition_concervation;
-
+    
         product.stock = stock;
-
+    
         product.quantite_per_article = quantite_per_article;
-
+    
         product.publish_date = publish_date;
-
-        product.shop = req.user.id;
-
-        const tabImages = [];
-
-        for (const iterator of images) {
-
-            const result = await uploadFileAws.uploadFile(iterator);
-
-            const file = filesModel();
-
-            file.url = result.fileName;
-
-            file.user = req.user.id;
-
-            const saveFile = await file.save();
-
-            tabImages.push(saveFile._id);
-        }
-
+    
+        product.shop = req.user.id_user;
+    
         const tabPricePack = [];
-
-        for (const iterator of pack_price) {
-
+    
+        for (const iterator of pack_discounts) {
+    
             const packPrice = packPriceModel();
-
+    
             packPrice.min = iterator.min;
-
+    
             packPrice.max = iterator.max;
-
+    
             packPrice.price = iterator.price;
-
+    
             const savePricePack = await packPrice.save();
-
+    
             tabPricePack.push(savePricePack._id);
         }
-
+    
         product.pack_price = tabPricePack;
-
-        product.images = tabImages;
-
+    
+    
         const saveProduct = await product.save();
-
-
-
-        const fournisseur = await shopModel.findById(req.user.id);
-
-        fournisseur.products.push(saveProduct._id);
-
-        const saveFournisseur = await fournisseur.save();
-
-
-        res.status(201).json({
+    
+    
+    
+        const user = await authModel.findById(req.user.id_user).exec();
+    
+        console.log(req.user.id_user);
+        console.log(user);
+    
+        user.products.push(saveProduct._id);
+    
+        const u = await user.save();
+    
+    
+        return res.status(201).json({
             message: ' àjout réussi',
             status: 'OK',
             data: saveProduct,
             statusCode: 201
         });
-
+    
 
 
     } catch (error) {
@@ -146,7 +129,7 @@ exports.all = async (req, res, next) => {
 
     try {
 
-        const products = productModel.find(req.query).populate(populateObject).exec();
+        const products = await  productModel.find(req.query).populate(populateObject).exec();
 
         return res.status(200).json({
             message: 'listage réussi',
