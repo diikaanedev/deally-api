@@ -184,7 +184,7 @@ exports.productsShop = async (req, res, next) => {
 exports.one = async (req, res, next) => {
     try {
 
-        const products = productModel.findById(req.params.id).populate(populateObject).exec();
+        const products = await productModel.findById(req.params.id).populate(populateObject).exec();
 
         return res.status(200).json({
             message: 'listage réussi',
