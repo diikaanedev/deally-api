@@ -6,6 +6,7 @@ exports.store = async (req, res ,next ) => {
         
         let {product   , quantite} = req.body ;
 
+        console.log(req.body);
 
 
         const item = itemOrerModel();
