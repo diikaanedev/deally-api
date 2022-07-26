@@ -91,7 +91,7 @@ exports.panierClient = async (req  , res ,next ) => {
         res.json({
             message: 'clients non trouvée',
             status: 'OK',
-            data: err,
+            data: error,
             statusCode: 400
         })
     }
