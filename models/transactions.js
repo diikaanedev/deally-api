@@ -20,6 +20,11 @@ const transactionModel = new Schema({
         type: Schema.Types.ObjectId,
         ref: "order"
     },
+
+    client : {
+        type: Schema.Types.ObjectId,
+        ref: "client"
+    },
     
     status: {
         type: String,
