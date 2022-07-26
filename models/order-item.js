@@ -6,10 +6,10 @@ const itemOrdersModel = new Schema({
     
     
 
-    product : [{
+    product : {
         type: Schema.Types.ObjectId,
         ref :'product'
-    }],
+    },
 
     shop : {
         type: Schema.Types.ObjectId,
@@ -19,18 +19,6 @@ const itemOrdersModel = new Schema({
     client : {
         type: Schema.Types.ObjectId,
         ref :'client'
-    },
-
-    conditionShop : {
-        type: String,
-        enum: ['CREATE', 'DELIVERY','CANCELED' , 'REPAY'],
-        default: 'CREATE'
-    },
-
-    conditionClient : {
-        type: String,
-        enum: ['CREATE', 'DELIVERY','CANCELED' , 'PAY'],
-        default: 'CREATE'
     },
 
     quantite : {
