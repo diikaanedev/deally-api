@@ -57,7 +57,7 @@ app.use('/v1/api/products'  ,products);
 
 app.use('/v1/api/files'  ,fileRouter);
 
-app.use('/v1/api/order-items'  ,orderItemRouter);
+app.use('/v1/api/order-items'  , authMidleweare,orderItemRouter);
 
 
 

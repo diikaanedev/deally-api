@@ -77,16 +77,17 @@ exports.one = async (req  , res ,next ) => {
 }
 
 exports.panierClient = async (req  , res ,next ) => {
+   
     try {
         const item = await itemOrerModel.find({
             client : req.user.id_user
         }).exec(); 
-        res.json({
+        return res.json({
             message: 'item trouvée avec succes',
             status: 'OK',
             data: item,
             statusCode: 200
-        })
+        }) 
     } catch (error) {
         res.json({
             message: 'clients non trouvée',
