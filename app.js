@@ -38,7 +38,12 @@ const fournisseurRouter = require('./routes/fournisseur') ;
 
 const products = require('./routes/products');
 
+const orderItemRouter = require('./routes/order-items');
+
 const fileRouter = require('./routes/file');
+
+const authMidleweare = require('./midleweare/auth');
+
 
 
 
@@ -51,6 +56,8 @@ app.use('/v1/api/shop'  ,fournisseurRouter);
 app.use('/v1/api/products'  ,products);
 
 app.use('/v1/api/files'  ,fileRouter);
+
+app.use('/v1/api/order-items'  ,orderItemRouter);
 
 
 

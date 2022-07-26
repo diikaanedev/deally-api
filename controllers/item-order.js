@@ -1,12 +1,21 @@
-const itemOrerModel = require('../models/item-orders');
+const itemOrerModel = require('../models/order-item');
 
 exports.store = async (req, res ,next ) => {
     
     try {
         
-        let {product , shop , client , quantite} = req.body ;
+        let {product   , quantite} = req.body ;
 
-        const item = itemOrerModel({product  , shop , client , quantite});
+
+
+        const item = itemOrerModel();
+
+        item.product = product ;
+
+        item.quantite = quantite ;
+
+        item.client = req.user.id_user ;
+
 
         const saveItem = await  item.save();
 
@@ -51,6 +60,27 @@ exports.all = async (req  , res ,next ) => {
 exports.one = async (req  , res ,next ) => {
     try {
         const item = await itemOrerModel.findById(req.params.id).exec(); 
+        res.json({
+            message: 'item trouvée avec succes',
+            status: 'OK',
+            data: item,
+            statusCode: 200
+        })
+    } catch (error) {
+        res.json({
+            message: 'clients non trouvée',
+            status: 'OK',
+            data: err,
+            statusCode: 400
+        })
+    }
+}
+
+exports.panierClient = async (req  , res ,next ) => {
+    try {
+        const item = await itemOrerModel.find({
+            client : req.params.idClient
+        }).exec(); 
         res.json({
             message: 'item trouvée avec succes',
             status: 'OK',
