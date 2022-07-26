@@ -5,21 +5,15 @@ const orderid = require('order-id')('diikaanedevDeally');
 
 exports.store = async (req, res ,next ) => {
     try {
-        let { 
-            amount,
-            
-            order,  } = req.body ;
+        let { amount,order } = req.body ;
 
-
-            reference
-            amount
-            token
-            order
+        const id = orderid.generate();
 
         
         const transaction = transactionModel();
 
-        transaction.reference = reference;
+        transaction.reference = orderid.getTime(id);
+        transaction.token = id;
         transaction.amount = amount;
         transaction.client = req.user.id_user;
         transaction.order = order;
@@ -30,7 +24,7 @@ exports.store = async (req, res ,next ) => {
         return res.json({
             message: 'transactions crée avec succes',
             status: 'OK',
-            data: saveTransaction,
+            data: saveTransactionS,
             statusCode: 201
         })
     } catch (error) {
@@ -47,16 +41,16 @@ exports.store = async (req, res ,next ) => {
 exports.all = async (req  , res ,next ) => {
     
     try {
-        const orders = await transactionModel.find(req.query).exec(); 
+        const transactions = await transactionModel.find(req.query).exec(); 
         res.json({
-            message: 'orders trouvée avec succes',
+            message: 'transactions trouvée avec succes',
             status: 'OK',
-            data: orders,
+            data: transactions,
             statusCode: 200
         })
     } catch (error) {
         res.json({
-            message: 'orders non trouvée',
+            message: 'transaction non trouvée',
             status: 'OK',
             data: error,
             statusCode: 400
@@ -67,16 +61,16 @@ exports.all = async (req  , res ,next ) => {
 
 exports.one = async (req  , res ,next ) => {
     try {
-        const order = await transactionModel.findById(req.params.id).exec(); 
+        const transaction = await transactionModel.findById(req.params.id).exec(); 
         res.json({
-            message: 'order trouvée avec succes',
+            message: 'transaction trouvée avec succes',
             status: 'OK',
-            data: order,
+            data: transaction,
             statusCode: 200
         })
     } catch (error) {
         res.json({
-            message: 'order non trouvée',
+            message: 'transaction non trouvée',
             status: 'OK',
             data: error,
             statusCode: 400
@@ -87,21 +81,21 @@ exports.one = async (req  , res ,next ) => {
 exports.update = async  (req  , res ,next ) => {
     let   { items ,price , status  } = req.body ;
 
-    const order = transactionModel.findById(req.params.id).exec();
+    const transactions = transactionModel.findById(req.params.id).exec();
 
     if (items!=undefined) {
-        order.items = items;
+        transactions.items = items;
     }   
 
     if (price!=undefined) {
-        order.price = price;
+        transactions.price = price;
     }   
 
     if (status!=undefined) {
-        order.status = status;
+        transactions.status = status;
     }   
   
-    order.save().then(result => {
+    transactions.save().then(result => {
         res.json({
             message: 'mise à jour réussi',
             status: 'OK',
