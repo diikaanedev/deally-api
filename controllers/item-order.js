@@ -79,7 +79,7 @@ exports.one = async (req  , res ,next ) => {
 exports.panierClient = async (req  , res ,next ) => {
     try {
         const item = await itemOrerModel.find({
-            client : req.params.idClient
+            client : req.user.id_user
         }).exec(); 
         res.json({
             message: 'item trouvée avec succes',
