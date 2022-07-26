@@ -42,6 +42,8 @@ const orderItemRouter = require('./routes/order-items');
 
 const fileRouter = require('./routes/file');
 
+const orderRouter = require('./routes/orders');
+
 const authMidleweare = require('./midleweare/auth');
 
 
@@ -58,6 +60,8 @@ app.use('/v1/api/products'  ,products);
 app.use('/v1/api/files'  ,fileRouter);
 
 app.use('/v1/api/order-items'  , authMidleweare,orderItemRouter);
+
+app.use('/v1/api/orders'  , authMidleweare,orderRouter);
 
 
 

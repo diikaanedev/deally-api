@@ -1,4 +1,4 @@
-const ordersModel = require('../models/orders');
+const ordersModel = require('../models/order');
 
 exports.store = async (req, res ,next ) => {
     try {
@@ -11,7 +11,7 @@ exports.store = async (req, res ,next ) => {
         const order = ordersModel();
 
         order.items = items;
-        
+
         order.price = price;
 
         const saveOrder = await  order.save();
