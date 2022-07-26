@@ -8,7 +8,11 @@ exports.store = async (req, res ,next ) => {
 
 
         
-        const order = ordersModel({items , price});
+        const order = ordersModel();
+
+        order.items = items;
+        
+        order.price = price;
 
         const saveOrder = await  order.save();
 
