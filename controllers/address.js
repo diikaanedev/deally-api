@@ -159,7 +159,7 @@ exports.all = async  (req,res,next)=> {
     }
 }
 
-exports.all = async  (req,res,next)=> {
+exports.allUser = async  (req,res,next)=> {
     try {
 
         const address = addressModel.find({
