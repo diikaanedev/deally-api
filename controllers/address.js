@@ -159,6 +159,29 @@ exports.all = async  (req,res,next)=> {
     }
 }
 
+exports.all = async  (req,res,next)=> {
+    try {
+
+        const address = addressModel.find({
+            user_created : req.user.id_users
+        }).excec();
+
+        res.json({
+            message: ' listage réussi',
+            status: 'OK',
+            data:address,
+            statusCode: 201
+        });
+    } catch (error) {
+        res.json({
+            message: 'erreur mise à jour ',
+            statusCode: 404,
+            data: error,
+            status: 'NOT OK'
+        });
+    }
+}
+
 exports.one = async  (req,res,next)=> {
     try {
 
