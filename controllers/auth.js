@@ -34,6 +34,22 @@ exports.store = async (req , res , next) => {
     auth.phone = req.body.phone ;
 
     auth.email = req.body.email ;
+
+    auth.nameShop = req.body.nameShop ;
+
+    auth.firstName = req.body.firstName ;
+
+    auth.lastName = req.body.lastName ;
+
+    auth.role = req.body.role ;
+
+    auth.city = req.body.city ;
+
+    auth.hasAcceptedNewsletter = req.body.hasAcceptedNewsletter ;
+
+    auth.nameShop = req.body.nameShop ;
+
+    auth.sexe = req.body.sexe ;
   
     auth.password =  passwordCrypt ;
 
@@ -108,14 +124,14 @@ exports.auth = async  ( req, res ,_ ) => {
                 message: 'Connection réussssi',
                 status: 'OK',
                 data: {
-                    token ,phone: result.phone,role : result.role , 
+                    user : result ,
                     token : result.token
                 },
                 statusCode: 200
             });
         } else {
             return res.json({
-                message: 'Identifiant ff  Incorrect',
+                message: 'Identifiant   Incorrect',
                 status: 'NOT OK',
                 data:  error,
                 statusCode: 401
@@ -176,7 +192,7 @@ exports.findAuth = async (req , res, _ ) =>  {
     console.log(user);
 
     res.json({ message: 'user connectée ', data: {
-        token : req.token ,phone: user.phone,role : user.role , 
+        token : req.token ,user : user
     } ,status: 'OK', statusCode: 200});
 
 }
