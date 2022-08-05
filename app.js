@@ -48,6 +48,8 @@ const transactionRouter = require('./routes/transaction');
 
 const placeRouter = require('./routes/address');
 
+const categorieRouter = require('./routes/categories');
+
 const authMidleweare = require('./midleweare/auth');
 
 
@@ -68,7 +70,10 @@ app.use('/v1/api/order-items'  , authMidleweare,orderItemRouter);
 app.use('/v1/api/transactions'  , authMidleweare,transactionRouter);
 
 app.use('/v1/api/orders'  , authMidleweare,orderRouter);
+
 app.use('/v1/api/address'  , authMidleweare,placeRouter);
+
+app.use('/v1/api/categories'  , authMidleweare,categorieRouter);
 
 
 

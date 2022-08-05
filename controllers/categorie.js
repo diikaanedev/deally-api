@@ -88,6 +88,15 @@ exports.update = async (req, res, next) => {
 
 
 exports.all = async  (req,res,next)=> {
+
+    const categories = await categorieModel.find(req.query).populate('image').exec();
+
+   return res.json({
+        message: ' listage réussi',
+        status: 'OK',
+        data:categories,
+        statusCode: 201
+    });
     try {
 
         const categories = categorieModel.find(req.query).excec();
