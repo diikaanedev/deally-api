@@ -89,7 +89,33 @@ exports.update = async (req, res, next) => {
 
 exports.all = async  (req,res,next)=> {
 
-    const categories = await categorieModel.find(req.query).populate('image').exec();
+    
+    try {
+        console.log(req.query.parent);
+        const categories = await categorieModel.find({
+            parent : {
+                $exists: req.query.parent == undefined  ? false : true
+        }}).populate('image').exec();
+    
+       return res.json({
+            message: ' listage réussi',
+            status: 'OK',
+            data:categories,
+            statusCode: 201
+        });
+    } catch (error) {
+        res.json({
+            message: 'erreur mise à jour ',
+            statusCode: 404,
+            data: error,
+            status: 'NOT OK'
+        });
+    }
+}
+
+exports.allParent = async  (req,res,next)=> {
+
+    const categories = await categorieModel.find(req.query).populate('image parent').exec();
 
    return res.json({
         message: ' listage réussi',
