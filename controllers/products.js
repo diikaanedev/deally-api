@@ -40,6 +40,8 @@ exports.store = async (req, res, next) => {
             description,
     
             address,
+
+            brand,
     
             condition_concervation,
     
@@ -59,6 +61,8 @@ exports.store = async (req, res, next) => {
         product.images = images;
     
         product.category = category;
+
+        product.brand = brand;
     
         product.description = description;
     
@@ -219,6 +223,8 @@ exports.update = async (req, res, next) => {
 
             category,
 
+            brand,
+
             description,
 
             address,
@@ -253,6 +259,11 @@ exports.update = async (req, res, next) => {
         if (name != undefined) {
             product.name = name;
         }
+
+        if (brand != undefined) {
+            product.brand = brand;
+        }
+
 
         if (pack_price != undefined) {
 
