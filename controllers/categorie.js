@@ -120,7 +120,7 @@ exports.allSon = async  (req,res,next)=> {
 
         const categories = await categorieModel.find({
             parent : req.query.category
-        }).populate('image parent').exec();
+        }).populate('image parent').sort({"title":-1}).exec();
 
         return res.json({
              message: ' listage réussi',
