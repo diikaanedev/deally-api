@@ -12,7 +12,8 @@ const routes = new Router();
 routes.post('/', authMiddleweare ,  productCtrl.store);
 routes.get('/', productCtrl.all);
 routes.get('/shop', authMiddleweare,  productCtrl.productsShop);
-routes.get('/:id', productCtrl.one);
+// routes.get('/:id', productCtrl.one);
+routes.get('/categorie' ,  productCtrl.productByCategorie);
 routes.put('/:id', productCtrl.update);
 routes.delete('/:id', productCtrl.delete);
 

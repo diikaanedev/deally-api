@@ -40,6 +40,8 @@ exports.store = async (req, res, next) => {
             description,
     
             address,
+
+            brand,
     
             condition_concervation,
     
@@ -59,6 +61,8 @@ exports.store = async (req, res, next) => {
         product.images = images;
     
         product.category = category;
+
+        product.brand = brand;
     
         product.description = description;
     
@@ -153,6 +157,46 @@ exports.all = async (req, res, next) => {
     }
 
 }
+exports.productByCategorie = async(req ,res ,next ) => {
+    try {
+
+        let cat = req.query.cat;
+
+        const tabsCat = cat.split('|');
+
+        console.log(tabsCat);
+
+        const products = await  productModel.find().populate(populateObject).exec();
+
+        const tabProducts = products.filter(e => {
+
+            const obj  = Object.assign(e.category);
+            console.log(obj._id.toString());
+           if (tabsCat.includes(obj._id.toString())) {
+                return e;
+           }
+        
+        });
+
+
+
+        return res.status(200).json({
+            message: 'listage réussi',
+            status: 'OK',
+            data: tabProducts,
+            statusCode: 200
+        });
+
+
+    } catch (error) {
+        res.status(404).json({
+            statusCode: 404,
+            message: "erreur ",
+            data: error,
+            status: 'NOT OK'
+        });
+    }
+}
 
 exports.productsShop = async (req, res, next) => {
 
@@ -219,6 +263,8 @@ exports.update = async (req, res, next) => {
 
             category,
 
+            brand,
+
             description,
 
             address,
@@ -253,6 +299,11 @@ exports.update = async (req, res, next) => {
         if (name != undefined) {
             product.name = name;
         }
+
+        if (brand != undefined) {
+            product.brand = brand;
+        }
+
 
         if (pack_price != undefined) {
 

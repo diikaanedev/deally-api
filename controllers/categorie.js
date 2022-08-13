@@ -113,26 +113,21 @@ exports.all = async  (req,res,next)=> {
     }
 }
 
-exports.allParent = async  (req,res,next)=> {
+exports.allSon = async  (req,res,next)=> {
 
-    const categories = await categorieModel.find(req.query).populate('image parent').exec();
-
-   return res.json({
-        message: ' listage réussi',
-        status: 'OK',
-        data:categories,
-        statusCode: 201
-    });
+    
     try {
 
-        const categories = categorieModel.find(req.query).excec();
+        const categories = await categorieModel.find({
+            parent : req.query.category
+        }).populate('image parent').sort({"title":-1}).exec();
 
-        res.json({
-            message: ' listage réussi',
-            status: 'OK',
-            data:categories,
-            statusCode: 201
-        });
+        return res.json({
+             message: ' listage réussi',
+             status: 'OK',
+             data:categories,
+             statusCode: 201
+         });
     } catch (error) {
         res.json({
             message: 'erreur mise à jour ',
