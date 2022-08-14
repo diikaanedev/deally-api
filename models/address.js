@@ -54,7 +54,7 @@ const addressModel = new Schema({
         ref :'product'
     }],
 
-    fisrtName : {
+    firstName : {
         type: String
     },
 

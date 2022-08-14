@@ -72,73 +72,74 @@ exports.store = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
+    
     try {
 
-        let { lastName, fisrtName, livraisonOrFacture, isMap, phone, zipcode, country, city, addr2, addr1, name, product } = req.body;
+        let { lastName, firstName, livraisonOrFacture, isMap, phone, zipcode, country, city, addr2, addr1, name, product } = req.body;
 
-        const address = addressModel.findById(req.params.id);
-
-
-        if (fisrtName != undefined) {
-            address.fisrtName = fisrtName;
+        const address =  await addressModel.findById(req.params.id);
+    
+    
+        if (firstName != undefined) {
+            address.firstName = firstName;
         }
-
+    
         if (lastName != undefined) {
             address.lastName = lastName;
         }
-
+    
         if (livraisonOrFacture != undefined) {
             address.livraisonOrFacture = livraisonOrFacture;
         }
-
+    
         if (isMap != undefined) {
             address.isMap = isMap;
         }
-
+    
         if (phone != undefined) {
             address.phone = phone;
         }
-
+    
         if (zipcode != undefined) {
             address.zipcode = zipcode;
         }
-
+    
         if (country != undefined) {
             address.country = country;
         }
-
+    
         if (city != undefined) {
             address.city = city;
         }
-
+    
         if (addr2 != undefined) {
             address.addr2 = addr2;
         }
-
+    
         if (addr1 != undefined) {
             address.addr1 = addr1;
         }
-
+    
         if (name != undefined) {
             address.name = name;
         }
-
+    
         if (product != undefined) {
-
+    
             if (address.prodcuts.includes(product)) {
                 address.prodcuts.push(product);
             }
         }
-
+    
         const updateAddress = await address.save();
-
-        res.json({
+    
+       return res.json({
             message: ' mise à jour réussi',
             status: 'OK',
             data: updateAddress,
             statusCode: 201
         });
-
+    
 
     } catch (error) {
         res.json({
