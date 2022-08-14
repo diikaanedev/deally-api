@@ -140,25 +140,18 @@ exports.update = async (req, res, next) => {
 
 exports.all = async  (req,res,next)=> {
 
-    const address = await addressModel.find(req.query).exec();
-
-       return res.json({
-            message: ' listage réussi',
-            status: 'OK',
-            data:address,
-            statusCode: 201
-        });
+   
 
     try {
 
-        const address = addressModel.find(req.query).excec();
+        const address = await addressModel.find(req.query).exec();
 
-        res.json({
-            message: ' listage réussi',
-            status: 'OK',
-            data:address,
-            statusCode: 201
-        });
+        return res.json({
+             message: ' listage réussi',
+             status: 'OK',
+             data:address,
+             statusCode: 201
+         });
     } catch (error) {
         res.json({
             message: 'erreur mise à jour ',
