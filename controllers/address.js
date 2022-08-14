@@ -75,7 +75,7 @@ exports.update = async (req, res, next) => {
     
     try {
 
-        let { lastName, firstName, livraisonOrFacture, isMap, phone, zipcode, country, city, addr2, addr1, name, product } = req.body;
+        let { lastName, firstName, livraisonOrFacture, isMap, phone, zipcode, country, city, addr2, addr1, name, product ,isDefault } = req.body;
 
         const address =  await addressModel.findById(req.params.id);
     
@@ -95,6 +95,11 @@ exports.update = async (req, res, next) => {
         if (isMap != undefined) {
             address.isMap = isMap;
         }
+
+        if (isDefault != undefined) {
+            address.isDefault = isDefault;
+        }
+
     
         if (phone != undefined) {
             address.phone = phone;

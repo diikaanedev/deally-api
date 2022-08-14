@@ -38,6 +38,11 @@ const addressModel = new Schema({
         default : false
     },
 
+    isDefault : {
+        type: Boolean,
+        default : false
+    },
+
     user_created : {
         type: Schema.Types.ObjectId,
         ref: "users"
