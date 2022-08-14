@@ -31,6 +31,7 @@ const addressModel = new Schema({
     phone : {
         type: String,
     },
+    
 
     isMap : {
         type: Boolean,
