@@ -56,7 +56,7 @@ const TransporteurProfileModel = new Schema({
 
     address : [{
         type: Schema.Types.ObjectId,
-        ref: "address"
+        ref: "place"
     }],
 
      

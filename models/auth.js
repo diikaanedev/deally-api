@@ -71,12 +71,12 @@ const UserModel = new Schema({
 
     city : {
         type : String,
-        default :""
+        default :"lagos"
     },
 
     address : [{
         type: Schema.Types.ObjectId,
-        ref: "address"
+        ref: "place"
     }],
 
      

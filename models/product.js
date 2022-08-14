@@ -36,7 +36,7 @@ const postModel = new Schema({
 
     address : [{
         type: Schema.Types.ObjectId,
-        ref :'address'
+        ref :'place'
     }],
 
     condition_concervation : {

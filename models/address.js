@@ -31,7 +31,7 @@ const addressModel = new Schema({
     phone : {
         type: String,
     },
-    
+
 
     isMap : {
         type: Boolean,
@@ -68,4 +68,4 @@ const addressModel = new Schema({
     }
 });
 
-module.exports = mongoose.model('address', addressModel);
+module.exports = mongoose.model('place', addressModel);
