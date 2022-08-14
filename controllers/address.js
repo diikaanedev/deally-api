@@ -22,7 +22,7 @@ exports.store = async (req, res, next) => {
 
         address.user_created = req.user.id_user;
         address.lastName = lastName;
-        address.fisrtName = firstName;
+        address.firstName = firstName;
         address.livraisonOrFacture = livraisonOrFacture;
         address.phone = phone;
         address.zipcode = zipcode;
