@@ -13,6 +13,7 @@ exports.store = async (req, res, next) => {
 
     try {
 
+
         let { lastName, fisrtName, livraisonOrFacture, isMap, phone, zipcode, country, city, addr2, addr1, name } = req.body;
 
         const address = addressModel();
@@ -20,29 +21,38 @@ exports.store = async (req, res, next) => {
         console.log(isMap);
 
         address.user_created = req.user.id_user;
+        address.lastName = lastName;
+        address.fisrtName = fisrtName;
+        address.livraisonOrFacture = livraisonOrFacture;
+        address.phone = phone;
+        address.zipcode = zipcode;
+        address.country = country;
+        address.city = city;
+        address.addr2 = addr2;
+        address.addr1 = addr1;
+        address.name = name;
 
-        if (isMap != undefined) {
-            address.isMap = true;
-            address.addr1 = addr1;
-        } else {
-            address.lastName = lastName;
-            address.fisrtName = fisrtName;
-            address.livraisonOrFacture = livraisonOrFacture;
-            address.phone = phone;
-            address.zipcode = zipcode;
-            address.country = country;
-            address.city = city;
-            address.addr2 = addr2;
-            address.addr1 = addr1;
-            address.name = name;
+        // if (isMap != undefined) {
+        //     address.isMap = true;
+        //     address.addr1 = addr1;
+        // } else {
+        //     address.lastName = lastName;
+        //     address.fisrtName = fisrtName;
+        //     address.livraisonOrFacture = livraisonOrFacture;
+        //     address.phone = phone;
+        //     address.zipcode = zipcode;
+        //     address.country = country;
+        //     address.city = city;
+        //     address.addr2 = addr2;
+        //     address.addr1 = addr1;
+        //     address.name = name;
 
-        }
-
+        // }
 
 
         const addressSave = await address.save();
 
-        return res.json({
+        return res.status(201).json({
             message: ' creation réussi',
             status: 'OK',
             data: addressSave,
