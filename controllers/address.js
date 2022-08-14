@@ -14,7 +14,7 @@ exports.store = async (req, res, next) => {
     try {
 
 
-        let { lastName, fisrtName, livraisonOrFacture, isMap, phone, zipcode, country, city, addr2, addr1, name } = req.body;
+        let { lastName, firstName, livraisonOrFacture, isMap, phone, zipcode, country, city, addr2, addr1, name } = req.body;
 
         const address = addressModel();
 
@@ -22,7 +22,7 @@ exports.store = async (req, res, next) => {
 
         address.user_created = req.user.id_user;
         address.lastName = lastName;
-        address.fisrtName = fisrtName;
+        address.fisrtName = firstName;
         address.livraisonOrFacture = livraisonOrFacture;
         address.phone = phone;
         address.zipcode = zipcode;
