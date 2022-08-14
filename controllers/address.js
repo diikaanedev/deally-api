@@ -167,13 +167,16 @@ exports.all = async (req, res, next) => {
 }
 
 exports.allUser = async (req, res, next) => {
+   
     try {
 
-        const address = addressModel.find({
-            user_created: req.user.id_users
-        }).excec();
-
-        res.json({
+        console.log(req.user.id_user);
+        const address = await addressModel.find({
+            user_created: req.user.id_user
+        }).exec();
+    
+    
+        return res.json({
             message: ' listage réussi',
             status: 'OK',
             data: address,
