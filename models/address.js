@@ -6,7 +6,6 @@ const addressModel = new Schema({
 
     name: {
         type: String,
-        required : true
     },
 
     addr1 : {
@@ -31,8 +30,6 @@ const addressModel = new Schema({
 
     phone : {
         type: String,
-        required : true,
-        unique  :true
     },
 
     isMap : {
