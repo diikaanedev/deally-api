@@ -97,6 +97,12 @@ exports.update = async (req, res, next) => {
         }
 
         if (isDefault != undefined) {
+           await addressModel.updateMany({
+                isDefault: true
+            } , {
+                isDefault : false
+            });
+            
             address.isDefault = isDefault;
         }
 
@@ -189,6 +195,33 @@ exports.allUser = async (req, res, next) => {
         console.log(req.user.id_user);
         const address = await addressModel.find({
             user_created: req.user.id_user
+        }).exec();
+    
+    
+        return res.json({
+            message: ' listage réussi',
+            status: 'OK',
+            data: address,
+            statusCode: 201
+        });
+    } catch (error) {
+        res.json({
+            message: 'erreur mise à jour ',
+            statusCode: 404,
+            data: error,
+            status: 'NOT OK'
+        });
+    }
+}
+
+exports.allUserDefault = async (req, res, next) => {
+   
+    try {
+
+        console.log(req.user.id_user);
+        const address = await addressModel.find({
+            user_created: req.user.id_user ,
+            isDefault : true
         }).exec();
     
     

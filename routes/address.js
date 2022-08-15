@@ -8,6 +8,7 @@ const routes = new Router();
 // Add routes
 routes.get('/', addressCtrl.all);
 routes.get('/me', addressCtrl.allUser);
+routes.get('/meDefault', addressCtrl.allUserDefault);
 routes.get('/:id', addressCtrl.one);
 routes.post('/', addressCtrl.store);
 routes.put('/:id', addressCtrl.update);
