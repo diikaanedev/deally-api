@@ -200,9 +200,13 @@ exports.findAuth = async (req , res, _ ) =>  {
 }
 
 exports.update = async (req, res ,next ) => {
+
+    
     try {
+        console.log(req.body);
+
         const auth = await  authModel.findById(req.user.id_user);
-        
+            
         if (req.body.phone!=undefined) {
             auth.phone = req.body.phone ;
         }
@@ -212,55 +216,57 @@ exports.update = async (req, res ,next ) => {
                 auth.passwords = auth.password.push(passwordCrypt);
                 auth.password = passwordCrypt ;
             }
-
+    
         }
-
-
+    
+    
         if (req.body.lastName !=undefined) {
             
-            auth.lastName = lastName ;
-
+            auth.lastName = req.body.lastName ;
+    
         }
-
+    
         if (req.body.firstName !=undefined) {
             
-            auth.firstName = firstName ;
-
+            auth.firstName = req.body.firstName ;
+    
         }
-
+    
         if (req.body.bvn !=undefined) {
             
-            auth.bvn = bvn ;
-
+            auth.bvn = req.body.bvn ;
+    
         }
-
+    
         if (req.body.cacNumber !=undefined) {
             
-            auth.cacNumber = cacNumber ;
-
+            auth.cacNumber = req.body.cacNumber ;
+    
         }
-
+    
         if (req.body.cacName !=undefined) {
             
-            auth.cacName = cacName ;
-
+            auth.cacName = req.body.cacName ;
+    
         }
-
+    
         if (req.body.role !=undefined) {
             
-            auth.role = role ;
-
+            auth.role = req.body.role ;
+    
         }
-
+    
+        await  auth.save();
+    
+    
         const token = jwt.sign({
             id_user: auth._id,
             role_user : auth.role , 
             phone_user : auth.phone
         }, process.env.JWT_SECRET, { expiresIn: '8784h' });
-
-        // auth.save();
-
-        res.json({
+    
+    
+        return res.json({
             message: 'mise à jour réussi',
             status: 'OK',
             data: {token , phone : auth.phone , role : auth.role  },
