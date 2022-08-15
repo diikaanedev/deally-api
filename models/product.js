@@ -20,10 +20,10 @@ const postModel = new Schema({
         ref :'pack_price' 
     }],
 
-    category : {
+    category : [{
         type: Schema.Types.ObjectId,
         ref :'categorie'
-    },
+    }],
 
     shop : {
         type: Schema.Types.ObjectId,
