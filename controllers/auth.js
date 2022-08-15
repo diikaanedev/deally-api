@@ -40,6 +40,8 @@ exports.store = async (req , res , next) => {
     auth.firstName = req.body.firstName ;
 
     auth.lastName = req.body.lastName ;
+    auth.cacName = req.body.cacName ;
+    auth.cacNumber = req.body.cacNumber ;
 
     auth.role = req.body.role ;
 
@@ -210,6 +212,37 @@ exports.update = async (req, res ,next ) => {
                 auth.passwords = auth.password.push(passwordCrypt);
                 auth.password = passwordCrypt ;
             }
+
+        }
+
+
+        if (req.body.lastName !=undefined) {
+            
+            auth.lastName = lastName ;
+
+        }
+
+        if (req.body.firstName !=undefined) {
+            
+            auth.firstName = firstName ;
+
+        }
+
+        if (req.body.bvn !=undefined) {
+            
+            auth.bvn = bvn ;
+
+        }
+
+        if (req.body.cacNumber !=undefined) {
+            
+            auth.cacNumber = cacNumber ;
+
+        }
+
+        if (req.body.cacName !=undefined) {
+            
+            auth.cacName = cacName ;
 
         }
 

@@ -106,6 +106,26 @@ const UserModel = new Schema({
         default :'0'
     },
 
+    cacName: {
+        type  : String ,
+        default :''
+    },
+
+    cacNumber: {
+        type  : String ,
+        default :''
+    },
+
+    cacAddress: {
+        type  : String ,
+        default :''
+    },
+
+    bvn: {
+        type  : String ,
+        default :''
+    },
+
     callFund : [{
         type: Schema.Types.ObjectId,
         ref: "callFund",
