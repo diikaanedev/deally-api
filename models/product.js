@@ -34,10 +34,10 @@ const postModel = new Schema({
         type : String
     },
 
-    address : [{
+    address : {
         type: Schema.Types.ObjectId,
         ref :'place'
-    }],
+    },
 
     condition_concervation : {
         type : String
