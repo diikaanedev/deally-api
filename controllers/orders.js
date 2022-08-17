@@ -1,20 +1,20 @@
 const ordersModel = require('../models/order');
 
-exports.store = async (req, res ,next ) => {
+exports.store = async (req, res, next) => {
     try {
-        let { items , price  } = req.body ;
+        let { items, price } = req.body;
 
 
 
 
-        
+
         const order = ordersModel();
 
         order.items = items;
 
         order.price = price;
 
-        const saveOrder = await  order.save();
+        const saveOrder = await order.save();
 
         return res.json({
             message: 'order crée avec succes',
@@ -30,13 +30,22 @@ exports.store = async (req, res ,next ) => {
             statusCode: 400
         })
     }
-    
+
 }
 
-exports.all = async (req  , res ,next ) => {
-    
+exports.all = async (req, res, next) => {
+
     try {
-        const orders = await ordersModel.find(req.query).exec(); 
+        const orders = await ordersModel.find(req.query).populate({
+            path: 'items',
+            populate: {
+                path: 'product',
+                select: 'shop',
+                
+            }
+        }).exec();
+
+
         res.json({
             message: 'orders trouvée avec succes',
             status: 'OK',
@@ -54,9 +63,58 @@ exports.all = async (req  , res ,next ) => {
 
 }
 
-exports.one = async (req  , res ,next ) => {
+
+exports.allByShop = async (req, res, next) => {
+
     try {
-        const order = await ordersModel.findById(req.params.id).exec(); 
+        const orders = await ordersModel.find(req.query).populate({
+            path: 'items',
+            populate: {
+                path: 'product',
+                select: 'shop',
+                match: {
+                    shop: req.query.shop
+                }
+            }
+        }).exec();
+
+        const v = orders.filter(e => {
+
+            if (e.items.length > 0) {
+                const b = e.items.filter(el => {
+                    if (el.product != null) {
+                        return el;
+                    }
+                });
+                e.items = b;
+                return e;
+            }
+        });
+
+        res.json({
+            message: 'orders trouvée avec succes',
+            status: 'OK',
+            data: v.filter(e => {
+                if (e.items.length > 0) {
+                    return e;
+                }
+            }),
+            statusCode: 200
+        })
+    } catch (error) {
+        res.json({
+            message: 'orders non trouvée',
+            status: 'OK',
+            data: error,
+            statusCode: 400
+        })
+    }
+
+}
+
+exports.one = async (req, res, next) => {
+    try {
+        const order = await ordersModel.findById(req.params.id).populate('items').exec();
         res.json({
             message: 'order trouvée avec succes',
             status: 'OK',
@@ -73,23 +131,23 @@ exports.one = async (req  , res ,next ) => {
     }
 }
 
-exports.update = async  (req  , res ,next ) => {
-    let   { items ,price , status  } = req.body ;
+exports.update = async (req, res, next) => {
+    let { items, price, status } = req.body;
 
     const order = ordersModel.findById(req.params.id).exec();
 
-    if (items!=undefined) {
+    if (items != undefined) {
         order.items = items;
-    }   
+    }
 
-    if (price!=undefined) {
+    if (price != undefined) {
         order.price = price;
-    }   
+    }
 
-    if (status!=undefined) {
+    if (status != undefined) {
         order.status = status;
-    }   
-  
+    }
+
     order.save().then(result => {
         res.json({
             message: 'mise à jour réussi',
@@ -110,14 +168,14 @@ exports.update = async  (req  , res ,next ) => {
 
 }
 
-exports.delete = (req  , res ,next ) => ordersModel.findByIdAndDelete(req.params.id).then(result => {
+exports.delete = (req, res, next) => ordersModel.findByIdAndDelete(req.params.id).then(result => {
     res.json({
         message: 'supréssion réussi',
         status: 'OK',
         data: result,
         statusCode: 200
     });
-}).catch( error => res.json({
+}).catch(error => res.json({
     message: 'erreur supréssion ',
     statusCode: 404,
     data: error,
