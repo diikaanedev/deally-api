@@ -21,6 +21,12 @@ const itemOrdersModel = new Schema({
         ref :'client'
     },
 
+    livraisson : {
+        type: Schema.Types.ObjectId,
+        ref :'place'
+    },
+
+
     quantite : {
         type : Number
     },
