@@ -24,7 +24,7 @@ exports.store = async (req, res ,next ) => {
         return res.json({
             message: 'transactions crée avec succes',
             status: 'OK',
-            data: saveTransactionS,
+            data: saveTransaction,
             statusCode: 201
         })
     } catch (error) {

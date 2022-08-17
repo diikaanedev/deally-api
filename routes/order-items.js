@@ -11,6 +11,6 @@ const routes = express.Router();
 routes.get('/' ,itemOrderCtrl.panierClient);
 routes.post('/' , itemOrderCtrl.store);
 routes.put('/' , itemOrderCtrl.update);
-routes.delete('/' ,itemOrderCtrl.delete);
+routes.delete('/:id' ,itemOrderCtrl.delete);
 
 module.exports = routes;
