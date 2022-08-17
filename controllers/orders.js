@@ -73,7 +73,7 @@ exports.allByShop = async (req, res, next) => {
                 path: 'product',
                 select: 'shop',
                 match: {
-                    shop: req.query.shop
+                    shop: req.user.id_user
                 }
             }
         }).exec();
