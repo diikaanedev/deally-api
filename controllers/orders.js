@@ -15,10 +15,12 @@ exports.store = async (req, res, next) => {
         const order = ordersModel();
 
         for (const iterator of items) {
-            
+
             const orderItems = await  ordersItemsModel.findById(items).exec();
  
             orderItems.order = saveOrder._id;
+
+            orderItems.statusClient = "CREATE";
            
             const  n =  await orderItems.save();
 

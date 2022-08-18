@@ -83,7 +83,8 @@ exports.panierClient = async (req  , res ,next ) => {
    
     try {
         const item = await itemOrerModel.find({
-            client : req.user.id_user
+            client : req.user.id_user,
+            statusClient :  'PANNIER'
         }).exec(); 
         return res.json({
             message: 'item trouvée avec succes',
@@ -105,7 +106,8 @@ exports.orderClient = async (req  , res ,next ) => {
    
     try {
         const item = await itemOrerModel.find({
-            order : req.query.idOrder
+            statusClient :  'CREATE',
+            client : req.user.id_user
         }).exec(); 
         return res.json({
             message: 'item trouvée avec succes',
@@ -115,7 +117,7 @@ exports.orderClient = async (req  , res ,next ) => {
         }) 
     } catch (error) {
         res.json({
-            message: 'clients non trouvée',
+            message: 'item non trouvée',
             status: 'OK',
             data: error,
             statusCode: 400

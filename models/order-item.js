@@ -31,6 +31,17 @@ const itemOrdersModel = new Schema({
         ref :'place'
     },
 
+    statusShop : {
+        type: String,
+        enum: ['CREATE', 'DELIVERY','CANCELED' , 'REPAY'],
+        default: 'CREATE'
+    },
+
+    statusClient : {
+        type: String,
+        enum: ['PANNIER','CREATE', 'DELIVERY','CANCELED' , 'PAY'],
+        default: 'PANNIER'
+    },
 
     quantite : {
         type : Number
