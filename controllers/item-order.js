@@ -4,7 +4,7 @@ exports.store = async (req, res ,next ) => {
     
     try {
         
-        let {product   , quantite , price , status} = req.body ;
+        let {product   , quantite , price , statusClient} = req.body ;
 
         console.log(req.body);
 
@@ -15,7 +15,7 @@ exports.store = async (req, res ,next ) => {
 
         item.quantite = quantite ;
 
-        item.statusClient = status ;
+        item.statusClient = statusClient ;
 
         item.priceTotal = price ;
 
