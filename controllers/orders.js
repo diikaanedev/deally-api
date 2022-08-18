@@ -4,9 +4,13 @@ const orderid = require('order-id')('diikaanedevDeally');
 
 
 exports.store = async (req, res, next) => {
-    try {
-        let { items, price , livraison } = req.body;
 
+    try {
+        let { items, price, livraison } = req.body;
+
+        const order = ordersModel();
+
+        const id = orderid.generate();
 
         order.items = items;
 
@@ -18,12 +22,11 @@ exports.store = async (req, res, next) => {
 
         const saveOrder = await order.save();
 
-        const order = ordersModel();
 
         for (const iterator of items) {
 
-            const orderItems = await  ordersItemsModel.findById(iterator).exec();
- 
+            const orderItems = await ordersItemsModel.findById(iterator).exec();
+
             orderItems.order = saveOrder._id;
 
             orderItems.statusClient = "CREATE";
@@ -31,8 +34,8 @@ exports.store = async (req, res, next) => {
             orderItems.livraison = livraison;
 
             orderItems.reference = orderid.getTime(id);
-           
-            const  n =  await orderItems.save();
+
+            const n = await orderItems.save();
 
         }
 
@@ -61,7 +64,7 @@ exports.all = async (req, res, next) => {
             populate: {
                 path: 'product',
                 select: 'shop',
-                
+
             }
         }).exec();
 
@@ -87,13 +90,13 @@ exports.allByClient = async (req, res, next) => {
 
     try {
         const orders = await ordersModel.find({
-            client : req.user.id_user
+            client: req.user.id_user
         }).populate({
             path: 'items',
             populate: {
                 path: 'product',
                 select: 'shop',
-                
+
             }
         }).exec();
 
