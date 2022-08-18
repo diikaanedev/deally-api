@@ -101,6 +101,28 @@ exports.panierClient = async (req  , res ,next ) => {
     }
 }
 
+exports.orderClient = async (req  , res ,next ) => {
+   
+    try {
+        const item = await itemOrerModel.find({
+            order : req.query.idOrder
+        }).exec(); 
+        return res.json({
+            message: 'item trouvée avec succes',
+            status: 'OK',
+            data: item,
+            statusCode: 200
+        }) 
+    } catch (error) {
+        res.json({
+            message: 'clients non trouvée',
+            status: 'OK',
+            data: error,
+            statusCode: 400
+        })
+    }
+}
+
 exports.update = async  (req  , res ,next ) => {
     let   { quantite } = req.body ;
 
