@@ -6,8 +6,6 @@ exports.store = async (req, res, next) => {
 
 
 
-
-
         const order = ordersModel();
 
         order.items = items;
@@ -37,6 +35,38 @@ exports.all = async (req, res, next) => {
 
     try {
         const orders = await ordersModel.find(req.query).populate({
+            path: 'items',
+            populate: {
+                path: 'product',
+                select: 'shop',
+                
+            }
+        }).exec();
+
+
+        res.json({
+            message: 'orders trouvée avec succes',
+            status: 'OK',
+            data: orders,
+            statusCode: 200
+        })
+    } catch (error) {
+        res.json({
+            message: 'orders non trouvée',
+            status: 'OK',
+            data: error,
+            statusCode: 400
+        })
+    }
+
+}
+
+exports.allByClient = async (req, res, next) => {
+
+    try {
+        const orders = await ordersModel.find({
+            client : req.user.id_user
+        }).populate({
             path: 'items',
             populate: {
                 path: 'product',
