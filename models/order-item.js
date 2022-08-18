@@ -11,6 +11,11 @@ const itemOrdersModel = new Schema({
         ref :'product'
     },
 
+    order : {
+        type: Schema.Types.ObjectId,
+        ref :'order'
+    },
+
     shop : {
         type: Schema.Types.ObjectId,
         ref :'shop'
@@ -21,7 +26,7 @@ const itemOrdersModel = new Schema({
         ref :'client'
     },
 
-    livraisson : {
+    livraison : {
         type: Schema.Types.ObjectId,
         ref :'place'
     },

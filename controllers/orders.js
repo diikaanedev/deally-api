@@ -1,18 +1,28 @@
 const ordersModel = require('../models/order');
+const ordersItemsModel = require('../models/order-item');
 
 exports.store = async (req, res, next) => {
     try {
         let { items, price } = req.body;
 
 
-
-        const order = ordersModel();
-
         order.items = items;
 
         order.price = price;
 
         const saveOrder = await order.save();
+
+        const order = ordersModel();
+
+        for (const iterator of items) {
+            
+            const orderItems = await  ordersItemsModel.findById(items).exec();
+ 
+            orderItems.order = saveOrder._id;
+           
+            const  n =  await orderItems.save();
+
+        }
 
         return res.json({
             message: 'order crée avec succes',
