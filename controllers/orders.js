@@ -1,14 +1,20 @@
 const ordersModel = require('../models/order');
 const ordersItemsModel = require('../models/order-item');
+const orderid = require('order-id')('diikaanedevDeally');
+
 
 exports.store = async (req, res, next) => {
     try {
-        let { items, price } = req.body;
+        let { items, price , livraison } = req.body;
 
 
         order.items = items;
 
         order.price = price;
+
+        order.livraison = livraison;
+
+        order.reference = orderid.getTime(id);
 
         const saveOrder = await order.save();
 
@@ -16,11 +22,15 @@ exports.store = async (req, res, next) => {
 
         for (const iterator of items) {
 
-            const orderItems = await  ordersItemsModel.findById(items).exec();
+            const orderItems = await  ordersItemsModel.findById(iterator).exec();
  
             orderItems.order = saveOrder._id;
 
             orderItems.statusClient = "CREATE";
+
+            orderItems.livraison = livraison;
+
+            orderItems.reference = orderid.getTime(id);
            
             const  n =  await orderItems.save();
 

@@ -19,6 +19,17 @@ const orderModel = new Schema({
         default: 'PENDING'
     },
 
+    livraison : {
+        type: Schema.Types.ObjectId,
+        ref :'place'
+    },
+
+    reference : {
+        type : String,
+        default :''
+    },
+
+
     date: {
         type: Date,
         default: Date.now()
