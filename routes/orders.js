@@ -11,6 +11,7 @@ const routes = express.Router();
 routes.get('/' ,orderCtrl.all);
 routes.get('/byShop' ,orderCtrl.allByShop);
 routes.get('/byClient' ,orderCtrl.allByClient);
+routes.get('/:id' ,orderCtrl.one);
 routes.post('/' , orderCtrl.store);
 routes.put('/' , orderCtrl.update);
 routes.delete('/' ,orderCtrl.delete);
