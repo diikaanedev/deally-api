@@ -1,12 +1,24 @@
 const ordersModel = require('../models/order');
 const ordersItemsModel = require('../models/order-item');
 const orderid = require('order-id')('diikaanedevDeally');
+var dateTime = require('node-datetime');
 
 
 exports.store = async (req, res, next) => {
 
     try {
+       
         let { items, price, livraison } = req.body;
+
+        const orderss = await ordersModel.find(req.query).exec();
+
+        var dt = dateTime.create();
+   
+        dt.format('m/d/Y');
+    
+        var bd = new Date(dt.now()).toISOString().toString();
+    
+        var d = bd.split('-')[0].substring(2)+ bd.split('-')[1].substring(0)+ bd.split('-')[2].split('T')[0].substring(0) + (orderss.length+1)  ;
 
         const order = ordersModel();
 
@@ -18,7 +30,7 @@ exports.store = async (req, res, next) => {
 
         order.livraison = livraison;
 
-        order.reference = orderid.getTime(id);
+        order.reference = d;
 
         const saveOrder = await order.save();
 
@@ -33,7 +45,7 @@ exports.store = async (req, res, next) => {
 
             orderItems.livraison = livraison;
 
-            orderItems.reference = orderid.getTime(id);
+            orderItems.reference = d;
 
             const n = await orderItems.save();
 
@@ -57,7 +69,7 @@ exports.store = async (req, res, next) => {
 }
 
 exports.all = async (req, res, next) => {
-
+   
     try {
         const orders = await ordersModel.find(req.query).populate({
             path: 'items',
