@@ -198,31 +198,7 @@ exports.productByCategorie = async (req, res, next) => {
 
 exports.productByFam = async (req, res, next) => {
 
-    const c = await categorieModel.find({
-        parent: req.query.cat
-    }).exec();
-
-    const cat = Object.assign(c);
-
-    const categorieTabs = cat.map(e => e._id.toString());
-
-    const products = await productModel.find().populate(populateObject).exec();
-
-    const tabProducts = products.filter(e => {
-
-        const obj = Object.assign(e.category);
-        if (categorieTabs.includes(obj._id.toString())) {
-            return e;
-        }
-
-    });
-
-    return res.status(200).json({
-        message: 'listage réussi',
-        status: 'OK',
-        data: tabProducts,
-        statusCode: 200
-    });
+   
 
     
     try {
@@ -230,27 +206,22 @@ exports.productByFam = async (req, res, next) => {
         const c = await categorieModel.find({
             parent: req.query.cat
         }).exec();
-
-        const tabsCat = c.data;
-
-        const t  = tabsCat.filter(e => {
-            return e._id;
-        });
-
-        console.log(t);
-
+    
+        const cat = Object.assign(c);
+    
+        const categorieTabs = cat.map(e => e._id.toString());
+    
         const products = await productModel.find().populate(populateObject).exec();
-
+    
         const tabProducts = products.filter(e => {
-
+    
             const obj = Object.assign(e.category);
-            console.log(obj._id.toString());
-            if (tabsCat.includes(obj._id.toString())) {
+            if (categorieTabs.includes(obj._id.toString())) {
                 return e;
             }
-
+    
         });
-
+    
         return res.status(200).json({
             message: 'listage réussi',
             status: 'OK',
