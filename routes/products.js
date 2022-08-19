@@ -13,6 +13,7 @@ routes.post('/', authMiddleweare ,  productCtrl.store);
 routes.get('/', productCtrl.all);
 routes.get('/shop', authMiddleweare,  productCtrl.productsShop);
 routes.get('/categorie' ,  productCtrl.productByCategorie);
+routes.get('/familly' ,  productCtrl.productByFam);
 routes.get('/:id', productCtrl.one);
 routes.put('/:id', productCtrl.update);
 routes.delete('/:id', productCtrl.delete);

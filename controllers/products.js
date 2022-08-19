@@ -15,110 +15,110 @@ const populateObject = [{
     select: 'title'
 }, {
     path: 'address',
-},{
-    path :'images'
-},{
-    path :'pack_price'
+}, {
+    path: 'images'
+}, {
+    path: 'pack_price'
 }];
 
 
 exports.store = async (req, res, next) => {
 
 
-  
+
     try {
 
         let {
             images,
-    
+
             name,
-    
+
             pack_discounts,
-    
+
             category,
-    
+
             description,
-    
+
             address,
 
             brand,
-    
+
             condition_concervation,
-    
+
             stock,
-    
+
             quantite_per_article,
-    
+
             publish_date } = req.body;
-    
-            console.log(images);
-    
-    
+
+        console.log(images);
+
+
         const product = productModel();
-    
+
         product.name = name;
-        
+
         product.images = images;
-    
+
         product.category = category;
 
         product.brand = brand;
-    
+
         product.description = description;
-    
+
         product.address = address;
-    
+
         product.condition_concervation = condition_concervation;
-    
+
         product.stock = stock;
-    
+
         product.quantite_per_article = quantite_per_article;
-    
+
         product.publish_date = publish_date;
-    
+
         product.shop = req.user.id_user;
-    
+
         const tabPricePack = [];
-    
+
         for (const iterator of pack_discounts) {
-    
+
             const packPrice = packPriceModel();
-    
+
             packPrice.min = iterator.min;
-    
+
             packPrice.max = iterator.max;
-    
+
             packPrice.price = iterator.price;
-    
+
             const savePricePack = await packPrice.save();
-    
+
             tabPricePack.push(savePricePack._id);
         }
-    
+
         product.pack_price = tabPricePack;
-    
-    
+
+
         const saveProduct = await product.save();
-    
-    
-    
+
+
+
         const user = await authModel.findById(req.user.id_user).exec();
-    
+
         console.log(req.user.id_user);
         console.log(user);
-    
+
         user.products.push(saveProduct._id);
-    
+
         const u = await user.save();
-    
-    
+
+
         return res.status(201).json({
             message: ' àjout réussi',
             status: 'OK',
             data: saveProduct,
             statusCode: 201
         });
-    
+
 
 
     } catch (error) {
@@ -137,7 +137,7 @@ exports.all = async (req, res, next) => {
 
     try {
 
-        const products = await  productModel.find(req.query).populate(populateObject).exec();
+        const products = await productModel.find(req.query).populate(populateObject).exec();
 
         return res.status(200).json({
             message: 'listage réussi',
@@ -157,7 +157,7 @@ exports.all = async (req, res, next) => {
     }
 
 }
-exports.productByCategorie = async(req ,res ,next ) => {
+exports.productByCategorie = async (req, res, next) => {
     try {
 
         let cat = req.query.cat;
@@ -166,19 +166,90 @@ exports.productByCategorie = async(req ,res ,next ) => {
 
         console.log(tabsCat);
 
-        const products = await  productModel.find().populate(populateObject).exec();
+        const products = await productModel.find().populate(populateObject).exec();
 
         const tabProducts = products.filter(e => {
 
-            const obj  = Object.assign(e.category);
+            const obj = Object.assign(e.category);
             console.log(obj._id.toString());
-           if (tabsCat.includes(obj._id.toString())) {
+            if (tabsCat.includes(obj._id.toString())) {
                 return e;
-           }
-        
+            }
+
+        });
+
+        return res.status(200).json({
+            message: 'listage réussi',
+            status: 'OK',
+            data: tabProducts,
+            statusCode: 200
         });
 
 
+    } catch (error) {
+        res.status(404).json({
+            statusCode: 404,
+            message: "erreur ",
+            data: error,
+            status: 'NOT OK'
+        });
+    }
+}
+
+exports.productByFam = async (req, res, next) => {
+
+    const c = await categorieModel.find({
+        parent: req.query.cat
+    }).exec();
+
+    const cat = Object.assign(c);
+
+    const categorieTabs = cat.map(e => e._id.toString());
+
+    const products = await productModel.find().populate(populateObject).exec();
+
+    const tabProducts = products.filter(e => {
+
+        const obj = Object.assign(e.category);
+        if (categorieTabs.includes(obj._id.toString())) {
+            return e;
+        }
+
+    });
+
+    return res.status(200).json({
+        message: 'listage réussi',
+        status: 'OK',
+        data: tabProducts,
+        statusCode: 200
+    });
+
+    
+    try {
+
+        const c = await categorieModel.find({
+            parent: req.query.cat
+        }).exec();
+
+        const tabsCat = c.data;
+
+        const t  = tabsCat.filter(e => {
+            return e._id;
+        });
+
+        console.log(t);
+
+        const products = await productModel.find().populate(populateObject).exec();
+
+        const tabProducts = products.filter(e => {
+
+            const obj = Object.assign(e.category);
+            console.log(obj._id.toString());
+            if (tabsCat.includes(obj._id.toString())) {
+                return e;
+            }
+
+        });
 
         return res.status(200).json({
             message: 'listage réussi',
@@ -202,8 +273,8 @@ exports.productsShop = async (req, res, next) => {
 
     try {
 
-        const products = await  productModel.find({
-            shop : req.user.id_user
+        const products = await productModel.find({
+            shop: req.user.id_user
         }).populate(populateObject).exec();
 
         return res.status(200).json({
@@ -376,11 +447,11 @@ exports.update = async (req, res, next) => {
     }
 }
 
-exports.delete = async (req, res ,next ) => {
+exports.delete = async (req, res, next) => {
     try {
-        
-        let { id }  = req.params;
-        
+
+        let { id } = req.params;
+
         const product = await productModel.findById(id).exec();
 
         const deleteProduct = await product.delete();
