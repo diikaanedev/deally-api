@@ -1,5 +1,7 @@
 const itemOrerModel = require('../models/order-item');
 
+const productModel = require('../models/product');
+
 exports.store = async (req, res ,next ) => {
     
     try {
@@ -8,21 +10,41 @@ exports.store = async (req, res ,next ) => {
 
         console.log(req.body);
 
-
-        const item = itemOrerModel();
-
-        item.product = product ;
-
-        item.quantite = quantite ;
-
-        item.statusClient = statusClient ;
-
-        item.priceTotal = price ;
-
-        item.client = req.user.id_user ;
+        const p  = await productModel.findById(product).exec();
 
 
-        const saveItem = await  item.save();
+
+        if (p) {
+
+            const item = itemOrerModel();
+
+
+            item.product = product ;
+
+            item.quantite = quantite ;
+
+            item.statusClient = statusClient ;
+
+            item.priceTotal = price ;
+
+            item.client = req.user.id_user ;
+
+            //TODO mettre shop sur orderId
+        
+            const saveItem = await  item.save();
+
+
+        }else {
+            res.json({
+                message: 'Erreur creation',
+                status: 'OK',
+                data: "error",
+                statusCode: 400
+            })
+        }
+
+
+        
 
     return res.json({
         message: 'item crée avec succes',
