@@ -29,7 +29,11 @@ exports.store = async (req, res ,next ) => {
 
             item.client = req.user.id_user ;
 
+            item.shop = p.shop ;
+
             //TODO mettre shop sur orderId
+
+
         
             const saveItem = await  item.save();
 
