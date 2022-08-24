@@ -55,7 +55,8 @@ exports.store = async (req, res ,next ) => {
         status: 'OK',
         data: saveItem,
         statusCode: 201
-    })
+    });
+
     } catch (error) {
         res.json({
             message: 'Erreur creation',
@@ -136,6 +137,29 @@ exports.orderClient = async (req  , res ,next ) => {
         const item = await itemOrerModel.find({
             statusClient :  'CREATE',
             client : req.user.id_user
+        }).exec(); 
+        return res.json({
+            message: 'item trouvée avec succes',
+            status: 'OK',
+            data: item,
+            statusCode: 200
+        }) 
+    } catch (error) {
+        res.json({
+            message: 'item non trouvée',
+            status: 'OK',
+            data: error,
+            statusCode: 400
+        })
+    }
+}
+
+exports.orderShop = async (req  , res ,next ) => {
+   
+    try {
+        const item = await itemOrerModel.find({
+            statusClient :  'CREATE',
+            shop : req.user.id_user
         }).exec(); 
         return res.json({
             message: 'item trouvée avec succes',

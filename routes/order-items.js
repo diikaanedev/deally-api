@@ -10,6 +10,7 @@ const routes = express.Router();
 // Add routes
 routes.get('/' ,itemOrderCtrl.panierClient);
 routes.get('/orderClient' ,itemOrderCtrl.orderClient);
+routes.get('/orderShop' ,itemOrderCtrl.orderClient);
 routes.get('/:id' ,itemOrderCtrl.one);
 routes.post('/' , itemOrderCtrl.store);
 routes.put('/' , itemOrderCtrl.update);
