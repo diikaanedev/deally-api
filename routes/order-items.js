@@ -13,7 +13,7 @@ routes.get('/orderClient' ,itemOrderCtrl.orderClient);
 routes.get('/orderShop' ,itemOrderCtrl.orderShop);
 routes.get('/:id' ,itemOrderCtrl.one);
 routes.post('/' , itemOrderCtrl.store);
-routes.put('/' , itemOrderCtrl.update);
+routes.put('/:id' , itemOrderCtrl.update);
 routes.delete('/:id' ,itemOrderCtrl.delete);
 
 module.exports = routes;

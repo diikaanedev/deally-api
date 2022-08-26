@@ -180,16 +180,19 @@ exports.orderShop = async (req  , res ,next ) => {
 exports.update = async  (req  , res ,next ) => {
     let   { quantite , statusShop , statusClient } = req.body ;
 
-    const item = itemOrerModel.findById(req.params.id).exec();
+    console.log(statusShop);
+    
+
+    const item = await  itemOrerModel.findById(req.params.id).exec();
 
     if (quantite!=undefined) {
         item.quantite = quantite;
     } 
 
-    if (statusShop!=undefined) {
+    if (statusShop != undefined) {
         item.statusShop = statusShop;
     } 
-    
+
     if (statusClient!=undefined) {
         item.statusClient = statusClient;
     }   
