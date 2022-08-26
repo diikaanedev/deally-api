@@ -39,7 +39,7 @@ const itemOrdersModel = new Schema({
 
     statusShop : {
         type: String,
-        enum: ['CREATE', 'DELIVERY','CANCELED' , 'REPAY'],
+        enum: ['CREATE', 'DELIVERY','CANCELED' , 'PAY' ,'REPAY','FINISHED'],
         default: 'CREATE'
     },
 
