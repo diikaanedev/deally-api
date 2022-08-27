@@ -24,6 +24,7 @@
     "node-datetime": "^2.1.2",
     "order-id": "^2.1.2",
     "parse-data-uri": "^0.2.0",
+    "paystack": "^2.0.1",
     "randomstring": "^1.2.2",
     "sharp": "^0.30.6",
     "stream-chat": "^6.5.1",

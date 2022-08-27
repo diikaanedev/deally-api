@@ -2,7 +2,6 @@ const transactionModel = require('../models/transactions');
 
 const orderid = require('order-id')('diikaanedevDeally');
 
-
 exports.store = async (req, res ,next ) => {
     try {
         let { amount,order } = req.body ;
