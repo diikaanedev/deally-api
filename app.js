@@ -50,6 +50,8 @@ const placeRouter = require('./routes/address');
 
 const categorieRouter = require('./routes/categories');
 
+const paymentsRouter = require('./routes/payments');
+
 const authMidleweare = require('./midleweare/auth');
 
 
@@ -67,13 +69,16 @@ app.use('/v1/api/files'  ,fileRouter);
 
 app.use('/v1/api/order-items'  , authMidleweare,orderItemRouter);
 
-app.use('/v1/api/transactions'  , authMidleweare,transactionRouter);
+app.use('/v1/api/transactions', authMidleweare ,transactionRouter);
 
 app.use('/v1/api/orders'  , authMidleweare,orderRouter);
 
 app.use('/v1/api/address'  , authMidleweare,placeRouter);
 
 app.use('/v1/api/categories'  , authMidleweare,categorieRouter);
+
+app.use('/v1/api/payments' ,paymentsRouter);
+
 
 
 
@@ -84,5 +89,4 @@ db().then(_ => {
         console.log(`Server started on ${port}`);
     });
 });
-
 
