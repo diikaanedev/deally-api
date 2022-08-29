@@ -203,7 +203,7 @@ exports.productByFam = async (req, res, next) => {
     
     try {
 
-        const c = await categorieModel.find({
+        const c = await categosrieModel.find({
             parent: req.query.cat
         }).exec();
     
