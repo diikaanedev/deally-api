@@ -50,7 +50,7 @@ const placeRouter = require('./routes/address');
 
 const categorieRouter = require('./routes/categories');
 
-const paymentsRouter = require('./routes/payments');
+const paymentsRouter = require('./routes/payements');
 
 const authMidleweare = require('./midleweare/auth');
 

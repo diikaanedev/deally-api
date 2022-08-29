@@ -2,7 +2,7 @@ const express = require('express');
 
 // import all controllers
 
-const transactionsCtrl = require('../controllers/payments');
+const transactionsCtrl = require('../controllers/payements');
 
 
 const routes = express.Router();
