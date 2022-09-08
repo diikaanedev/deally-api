@@ -36,16 +36,21 @@ const itemOrdersModel = new Schema({
         default :''
     },
 
+    referencePay : {
+        type : String,
+        default :''
+    },
+
 
     statusShop : {
         type: String,
-        enum: ['CREATE', 'DELIVERY','CANCELED' , 'PAY' ,'REPAY','FINISHED'],
+        enum: ['CREATE', 'DELIVERY','FAILED' , 'PAY' ,'REPAY','FINISHED'],
         default: 'CREATE'
     },
 
     statusClient : {
         type: String,
-        enum: ['PANNIER','CREATE', 'DELIVERY','CANCELED' , 'PAY'],
+        enum: ['PANNIER','CREATE', 'DELIVERY','FAILED' , 'PAY'],
         default: 'PANNIER'
     },
 
