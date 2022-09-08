@@ -77,7 +77,7 @@ app.use('/v1/api/address'  , authMidleweare,placeRouter);
 
 app.use('/v1/api/categories'  , authMidleweare,categorieRouter);
 
-app.use('/v1/api/payments' ,paymentsRouter);
+app.use('/v1/api/payments'  ,paymentsRouter);
 
 
 

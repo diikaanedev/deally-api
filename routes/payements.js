@@ -8,5 +8,5 @@ const transactionsCtrl = require('../controllers/payements');
 const routes = express.Router();
 
 routes.post('/' , transactionsCtrl.addPayment);
-routes.post('/payment_wh' , transactionsCtrl.paymentWH);
+routes.post('/ipn' , transactionsCtrl.paymentWH);
 module.exports = routes;
