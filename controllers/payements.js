@@ -72,6 +72,9 @@ exports.paymentWH = async (req  , res ,next ) => {
             order.statusClient = "FAILED";
             order.statusShop = "FAILED";
         }
+
+        await order.save();
+
         res.json({
             message: 'Webhook received',
             status: 'OK',
