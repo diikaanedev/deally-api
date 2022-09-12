@@ -41,7 +41,7 @@ exports.store = async (req, res, next) => {
 
             orderItems.order = saveOrder._id;
 
-            orderItems.statusClient = typePaiment == 0 ? paiStatus == "ok" ? "PAY" : "FAILED" : "CREATE";
+            orderItems.statusClient = typePaiment == 0 ? paiStatus == "true" ? "PAY" : "FAILED" : "CREATE";
 
             orderItems.livraison = livraison;
 
