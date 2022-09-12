@@ -48,6 +48,15 @@ const itemOrdersModel = new Schema({
         default: 'CREATE'
     },
 
+
+    typePaiment : {
+        type: String,
+        enum: ['BANK_TRANSFERT', 'POS_DELIVERY','CASH_DELIVERY' , 'MICROFINACING' ],
+        default: 'BANK_TRANSFERT'
+    },
+
+    
+
     statusClient : {
         type: String,
         enum: ['PANNIER','CREATE', 'DELIVERY','FAILED' , 'PAY'],

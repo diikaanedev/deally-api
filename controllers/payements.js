@@ -4,8 +4,10 @@ const OrderItemModel = require('../models/order-item');
 
 const orderid = require('order-id')('diikaanedevDeally');
 
-var paystack = require('paystack')('sk_test_1b23cbce38875af89d0032bfc3259966a32f3334');
-const currencies = ["NGN", "GHS", "ZAR", "USD"]
+const paystack = require('paystack')('sk_test_1b23cbce38875af89d0032bfc3259966a32f3334');
+
+const currencies = ["NGN", "GHS", "ZAR", "USD"];
+
 exports.addPayment = async (req  , res ,next ) => {
     try {
         console.log(req.body);
@@ -30,7 +32,7 @@ exports.addPayment = async (req  , res ,next ) => {
                 status: 'NOT OK',
             });
         }
-        var result = await paystack.transaction.initialize({email: req.body.email, amount: req.body.amount, currency: req.body.currency})
+        const result = await paystack.transaction.initialize({email: req.body.email, amount: req.body.amount, currency: req.body.currency});
 
         const order = await  OrderItemModel.findOne({
             reference : req.body.reference

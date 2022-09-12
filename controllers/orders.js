@@ -8,7 +8,7 @@ exports.store = async (req, res, next) => {
 
     try {
        
-        let { items, price, livraison } = req.body;
+        let { items, price, livraison , typePaiment , refPaid , paiStatus } = req.body;
 
         const orderss = await ordersModel.find(req.query).exec();
 
@@ -41,11 +41,14 @@ exports.store = async (req, res, next) => {
 
             orderItems.order = saveOrder._id;
 
-            orderItems.statusClient = "CREATE";
+            orderItems.statusClient = typePaiment == 0 ? paiStatus == "ok" ? "PAY" : "FAILED" : "CREATE";
 
             orderItems.livraison = livraison;
 
+            orderItems.typePaiment =  typePaiment == 0  ? "BANK_TRANSFERT" :  typePaiment == 1  ? "POS_DELIVERY" :  typePaiment == 1  ? "CASH_DELIVERY" : typePaiment == 1  ? "MICROFINACING" : "BANK_TRANSFERT"
+
             orderItems.reference = d;
+            orderItems.referencePay = refPaid!=undefined ? refPaid : ""  ;
 
             const n = await orderItems.save();
 
