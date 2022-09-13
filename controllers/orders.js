@@ -45,7 +45,7 @@ exports.store = async (req, res, next) => {
 
             orderItems.livraison = livraison;
 
-            orderItems.typePaiment =  typePaiment == 0  ? "BANK_TRANSFERT" :  typePaiment == 1  ? "POS_DELIVERY" :  typePaiment == 1  ? "CASH_DELIVERY" : typePaiment == 1  ? "MICROFINACING" : "BANK_TRANSFERT"
+            orderItems.typePaiment =  typePaiment == 0  ? "BANK_TRANSFERT" :  typePaiment == 1  ? "POS_DELIVERY" :  typePaiment == 2  ? "CASH_DELIVERY" : typePaiment == 3  ? "MICROFINACING" : "BANK_TRANSFERT"
 
             orderItems.reference = d;
             orderItems.referencePay = refPaid!=undefined ? refPaid : ""  ;
