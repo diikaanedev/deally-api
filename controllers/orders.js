@@ -7,6 +7,9 @@ var dateTime = require('node-datetime');
 exports.store = async (req, res, next) => {
 
     try {
+
+        console.log('body => ' , req.body);
+        
        
         let { items, price, livraison , typePaiment , refPaid , paiStatus } = req.body;
 
