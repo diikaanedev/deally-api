@@ -23,6 +23,11 @@ const orderModel = new Schema({
         type: Schema.Types.ObjectId,
         ref :'place'
     },
+    typePaiment : {
+        type: String,
+        enum: ['BANK_TRANSFERT', 'POS_DELIVERY','CASH_DELIVERY' , 'MICROFINACING' ],
+        default: 'BANK_TRANSFERT'
+    },
 
     reference : {
         type : String,
