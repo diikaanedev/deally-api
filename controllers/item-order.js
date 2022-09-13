@@ -158,7 +158,6 @@ exports.orderShop = async (req  , res ,next ) => {
    
     try {
         const item = await itemOrerModel.find({
-            statusClient :  'CREATE',
             shop : req.user.id_user
         }).exec(); 
         return res.json({
