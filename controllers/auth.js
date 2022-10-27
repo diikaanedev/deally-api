@@ -45,6 +45,19 @@ exports.store = async (req , res , next) => {
 
     auth.role = req.body.role ;
 
+    if(req.body.phone.substring(0,4) =="+234") {
+        auth.contry = "Nigéria";
+    }else  if(req.body.phone.substring(0,4) =="+224") {
+        auth.contry = "Guinee";
+
+    }else  if(req.body.phone.substring(0,4) =="+225") {
+        auth.contry = "Cote d\'ivoire";
+    }
+    else {
+        auth.contry = "Sénégal";
+
+    }
+
     auth.city = req.body.city ;
 
     auth.hasAcceptedNewsletter = req.body.hasAcceptedNewsletter ;
