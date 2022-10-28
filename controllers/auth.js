@@ -40,10 +40,21 @@ exports.store = async (req , res , next) => {
     auth.firstName = req.body.firstName ;
 
     auth.lastName = req.body.lastName ;
+
     auth.cacName = req.body.cacName ;
+    
     auth.cacNumber = req.body.cacNumber ;
 
     auth.role = req.body.role ;
+
+    auth.TypeOfCompany = req.body.TypeOfCompany;
+
+    auth.NameofIDCard  = req.body.NameofIDCard;
+
+    auth.NumberfIDCard  = req.body.NumberfIDCard;
+
+    auth.MaritalStatut  = req.body.MaritalStatut;
+
 
     if(req.body.phone.substring(0,4) =="+234") {
         auth.contry = "Nigéria";

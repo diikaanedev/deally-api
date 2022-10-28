@@ -24,8 +24,31 @@ const UserModel = new Schema({
     
     role: {
         type : String,
-        enum: ['admin', 'super', 'fournisseur', 'commercant', 'transporteur'],
+        enum: ['admin', 'super', 'fournisseur', 'commercant', 'transporteur','driver', 'logisticien','particulier'],
         default: 'commercant'
+    },
+
+    TypeOfCompany  : {
+        type : String,
+        enum: ['Ltd', 'Plc', 'Gte', 'Ultd', 'Syndics Incorporated' , 'Partenariat limite (LP)'],
+        default: 'Ltd'
+    },
+
+    NameofIDCard  : {
+        type : String,
+        enum: ['National', 'Voter', 'Driver', 'Passport', ],
+        default: 'National'
+    },
+
+    NumberfIDCard: {
+        type: String,
+        default :""
+    },
+
+    MaritalStatut  : {
+        type : String,
+        enum: ['Married', 'Unmarried' ],
+        default: 'Married'
     },
 
     sexe: {
@@ -38,6 +61,13 @@ const UserModel = new Schema({
         type: String,
         default :""
     },
+
+
+    profile : {
+        type: String,
+        default :""
+    },
+
 
     avatar : {
         type: Schema.Types.ObjectId,
