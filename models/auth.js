@@ -34,7 +34,7 @@ const UserModel = new Schema({
         default: 'Ltd'
     },
 
-    NameofIDCard  : {
+    NameofIDCard  : {       
         type : String,
         enum: ['National', 'Voter', 'Driver', 'Passport', ],
         default: 'National'

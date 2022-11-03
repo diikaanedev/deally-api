@@ -12,7 +12,7 @@ const authModel = require('../models/auth');
 
 const populateObject = [{
     path: 'category',
-    select: 'title'
+    select: 'title',
 }, {
     path: 'address',
 }, {
@@ -198,12 +198,12 @@ exports.productByCategorie = async (req, res, next) => {
 
 exports.productByFam = async (req, res, next) => {
 
-   
+    
 
     
     try {
 
-        const c = await categosrieModel.find({
+        const c = await categorieModel.find({
             parent: req.query.cat
         }).exec();
     
@@ -213,13 +213,27 @@ exports.productByFam = async (req, res, next) => {
     
         const products = await productModel.find().populate(populateObject).exec();
     
-        const tabProducts = products.filter(e => {
+        let tabProducts = products.filter(e => {
     
             const obj = Object.assign(e.category);
             if (categorieTabs.includes(obj._id.toString())) {
                 return e;
             }
     
+        });
+    
+        tabProducts = tabProducts.filter(e => {
+            const obj = Object.assign(e.pack_price);
+           const objectPrice = Object.assign(obj[2]);
+            console.log('objectPrice' ,objectPrice.price );
+            if (req.query.min != undefined || req.query.max != undefined) {
+                if (objectPrice.price >= (parseInt(req.query.min) * 100) && objectPrice.price <= (parseInt(req.query.max) * 100)  ) {
+                    return e;
+                }
+            }else {
+                return e ;
+            }
+            
         });
     
         return res.status(200).json({
