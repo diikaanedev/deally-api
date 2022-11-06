@@ -117,7 +117,7 @@ exports.allSon = async  (req,res,next)=> {
 
     
     try {
-
+        
         const categories = await categorieModel.find({
             parent : req.query.category
         }).populate('image parent').sort({"title":-1}).exec();

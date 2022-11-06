@@ -263,17 +263,24 @@ exports.one = async (req, res, next) => {
 }
 
 exports.delete = async (req, res, next) => {
+    
+
+        
     try {
-
-        const address = addressModel.findOne(req.params.id).excec();
-
-        const deleteAddress = address.delete();
-
-        res.json({
-            message: ' supression réussi',
-            status: 'OK',
-            data: deleteAddress,
-            statusCode: 201
+        const address =  addressModel.findByIdAndDelete(req.params.id).then(result => {
+            res.json({
+                message: ' supression réussi',
+                status: 'OK',
+                data: result,
+                statusCode: 201
+            });
+        }).catch(err=> {
+            res.json({
+                message: 'erreur mise à jour ',
+                statusCode: 404,
+                data: err,
+                status: 'NOT OK'
+            });
         });
     } catch (error) {
         res.json({
