@@ -279,6 +279,34 @@ exports.update = async (req, res ,next ) => {
             auth.role = req.body.role ;
     
         }
+
+        if (req.body.TypeOfCompany !=undefined) {
+            
+            auth.TypeOfCompany = req.body.TypeOfCompany;
+    
+        }
+
+        if (req.body.NameofIDCard !=undefined) {
+            
+            auth.NameofIDCard = req.body.NameofIDCard;
+    
+        }
+
+        if (req.body.NumberfIDCard !=undefined) {
+            
+            auth.NumberfIDCard = req.body.NumberfIDCard;
+    
+        }
+
+        
+
+        if (req.body.MaritalStatut !=undefined) {
+            
+            auth.MaritalStatut = req.body.MaritalStatut;
+    
+        }
+        
+
     
         await  auth.save();
     
