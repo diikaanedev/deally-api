@@ -30,7 +30,7 @@ const UserModel = new Schema({
 
     TypeOfCompany  : {
         type : String,
-        enum: ['Ltd', 'Plc', 'Gte', 'Ultd', 'Syndics Incorporated' , 'Partenariat limite (LP)'],
+        enum: ['Ltd', 'Plc', 'Gte', 'Ultd', 'Syndics_Incorporated' , 'Partenariat_limite'],
         default: 'Ltd'
     },
 
