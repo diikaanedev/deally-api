@@ -225,103 +225,7 @@ exports.findAuth = async (req , res, _ ) =>  {
 
 exports.update = async (req, res ,next ) => {
 
-    console.log(req.body);
-
-        const auth = await  authModel.findById(req.user.id_user);
-            
-        if (req.body.phone!=undefined) {
-            auth.phone = req.body.phone ;
-        }
-        if (req.body.password !=undefined) {
-            if (bcrytjs.compareSync(req.body.password, auth.password)) {
-                const passwordCrypt = bcrytjs.hashSync(req.body.newPassword, salt);
-                auth.passwords = auth.password.push(passwordCrypt);
-                auth.password = passwordCrypt ;
-            }
-    
-        }
-    
-    
-        if (req.body.lastName !=undefined) {
-            
-            auth.lastName = req.body.lastName ;
-    
-        }
-    
-        if (req.body.firstName !=undefined) {
-            
-            auth.firstName = req.body.firstName ;
-    
-        }
-    
-        if (req.body.bvn !=undefined) {
-            
-            auth.bvn = req.body.bvn ;
-    
-        }
-    
-        if (req.body.cacNumber !=undefined) {
-            
-            auth.cacNumber = req.body.cacNumber ;
-    
-        }
-    
-        if (req.body.cacName !=undefined) {
-            
-            auth.cacName = req.body.cacName ;
-    
-        }
-    
-        if (req.body.role !=undefined) {
-            
-            auth.role = req.body.role ;
-    
-        }
-
-        if (req.body.TypeOfCompany !=undefined) {
-            
-            auth.TypeOfCompany = req.body.TypeOfCompany;
-    
-        }
-
-        if (req.body.NameofIDCard !=undefined) {
-            
-            auth.NameofIDCard = req.body.NameofIDCard;
-    
-        }
-
-        if (req.body.NumberfIDCard !=undefined) {
-            
-            auth.NumberfIDCard = req.body.NumberfIDCard;
-    
-        }
-
-        
-
-        if (req.body.MaritalStatut !=undefined) {
-            
-            auth.MaritalStatut = req.body.MaritalStatut;
-    
-        }
-        
-
-    
-        await  auth.save();
-    
-    
-        const token = jwt.sign({
-            id_user: auth._id,
-            role_user : auth.role , 
-            phone_user : auth.phone
-        }, process.env.JWT_SECRET, { expiresIn: '8784h' });
-    
-    
-        return res.json({
-            message: 'mise à jour réussi',
-            status: 'OK',
-            data: {token , phone : auth.phone , role : auth.role  },
-            statusCode: 200
-        });
+   
     
     try {
         console.log(req.body);
@@ -400,6 +304,12 @@ exports.update = async (req, res ,next ) => {
         if (req.body.MaritalStatut !=undefined) {
             
             auth.MaritalStatut = req.body.MaritalStatut;
+    
+        }
+
+        if (req.body.nameShop !=undefined) {
+            
+            auth.nameShop = req.body.nameShop;
     
         }
         
