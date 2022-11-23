@@ -1,5 +1,7 @@
 const authModel = require('../models/auth');
 
+const codePhoneModel = require('../models/code-phone');
+
 const bcrytjs = require('bcryptjs');
 
 const salt = bcrytjs.genSaltSync(10);
@@ -12,6 +14,12 @@ const StreamChat = require('stream-chat').StreamChat;
 
 const axios = require('axios').default;
 
+const axiosOrange = require('axios');
+
+var dateTime = require('node-datetime');
+
+
+
 require('dotenv').config({
     path: './.env'
 });
@@ -19,6 +27,9 @@ require('dotenv').config({
 // Define values.
 const api_key = 'crwbkpad2e28'
 const api_secret = 'cmnxknpmgkf4b2ru6m7wn6b8cgurnfsgwa3csqypbtbbsyf9rzfpn8mptts2xhu2'
+
+// orange api 
+
 
 
 
@@ -355,4 +366,122 @@ exports.delete = (req, res , next ) => authModel.findByIdAndDelete(req.user.id_u
     statusCode: 404,
     data: error,
     status: 'NOT OK'
-  }));
+}));
+
+exports.verifNumberValid = async (req, res , next) => {
+
+
+    const min = 10000;
+    const max = 99999;
+    const num = Math.floor(Math.random() * (max - min + 1)) + min;
+
+
+    const phoneV = await authModel.findOne({
+        phone :req.body.telSender
+    })
+
+    console.log('phoneV => ' , phoneV);
+    
+    if(phoneV==null) {
+        const newCode = codePhoneModel();
+
+        newCode.code = num;
+
+        const s = await newCode.save();
+
+        console.log('s => ', num);
+        
+
+        const updateCode = async () => {
+
+            const i = await codePhoneModel.findById(s._id);
+
+            i.is_treat = true;
+
+            const j = await i.save();
+        }
+
+        setTimeout(updateCode, 180000);
+
+        console.log('d =>' , num);
+    
+
+
+        var data = JSON.stringify({
+        "outboundSMSMessageRequest": {
+            "address": "tel:"+req.body.telSender,
+            "senderAddress": "tel:+224626501651",
+            "outboundSMSTextMessage": {
+            "message": "Votre code de validation Deally est le suivant: "+num
+            }
+        }
+        });
+
+        var config = {
+        method: 'post',
+        url: 'https://api.orange.com/smsmessaging/v1/outbound/tel:+224626501651/requests',
+        headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': 'Bearer '+req.accessToken
+        },
+        data : data
+        };
+
+        axiosOrange(config)
+        .then(function (response) {
+            const obj = Object.assign(response.data);
+            res.status(201).json({
+                message: 'code envoyé avec success ',
+                status: 'OK',
+                data: num,
+                statusCode: 201
+            })
+        })
+        .catch(function (error) {
+            res.status(404).json({
+                message: 'erreur envoie sms phone déjas utilisé ',
+                status: 'OK',
+                data: error,
+                statusCode: 404
+            })
+        });
+    }
+    else {
+        res.status(404).json({
+            message: 'phone déjas utilisé ',
+            status: 'OK',
+            data: null,
+            statusCode: 404
+        })
+    }
+
+    
+}
+
+exports.verifCode = async (req, res , next ) => {
+
+    const codes = await codePhoneModel.findOne({
+        code : req.body.code,
+        is_treat : false
+    }) ;
+
+    if(codes){
+        codes.is_treat = true ;
+        await codes.save();
+        return res.status(200).json({
+            message: 'code valid et verifier',
+            status: 'OK',
+            data: null,
+            statusCode: 200
+        })
+    }
+
+    return res.status(404).json({
+        message: 'code non disponible ',
+            status: 'OK',
+            data: null,
+            statusCode: 404
+    })
+
+
+} 
