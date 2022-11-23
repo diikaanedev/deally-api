@@ -412,7 +412,7 @@ exports.verifNumberValid = async (req, res , next) => {
             "address": "tel:"+req.body.telSender,
             "senderAddress": "tel:+224626501651",
             "outboundSMSTextMessage": {
-            "message": "Votre code de validation Deally est le suivant: "+num
+            "message": "Votre code de validation Deally est le suivant: "+num + "\n HxrjxBUsqpA"
             }
         }
         });
