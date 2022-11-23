@@ -242,16 +242,20 @@ exports.allUserDefault = async (req, res, next) => {
 }
 
 exports.one = async (req, res, next) => {
+
+    
+
     try {
 
-        const address = addressModel.findOne(req.params.id).excec();
+        const address = await addressModel.findById(req.params.id);
 
-        res.json({
+        return res.json({
             message: ' listage réussi',
             status: 'OK',
             data: address,
             statusCode: 201
         });
+        
     } catch (error) {
         res.json({
             message: 'erreur mise à jour ',
