@@ -52,8 +52,6 @@ const categorieRouter = require('./routes/categories');
 
 const paymentsRouter = require('./routes/payements');
 
-const contryRouter = require('./routes/contry');
-
 const authMidleweare = require('./midleweare/auth');
 
 
@@ -78,8 +76,6 @@ app.use('/v1/api/orders'  , authMidleweare,orderRouter);
 app.use('/v1/api/address'  , authMidleweare,placeRouter);
 
 app.use('/v1/api/categories'  , authMidleweare,categorieRouter);
-
-app.use('/v1/api/contry'  , authMidleweare,contryRouter);
 
 app.use('/v1/api/payments'  ,paymentsRouter);
 

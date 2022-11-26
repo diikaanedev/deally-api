@@ -32,8 +32,8 @@ const categorieModel = new Schema({
     },
 
     contries : [{
-        type: Schema.Types.ObjectId,
-        ref: "contry"
+        type: String,
+        default :[]
     }],
 
     date: {
