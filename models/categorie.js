@@ -10,6 +10,12 @@ const categorieModel = new Schema({
         required : true
     },
 
+    tiltleFrench : {
+        type: String,
+            unique : true , 
+            required : true
+    },
+
     parent : {
         type: Schema.Types.ObjectId,
         ref: "categorie"
@@ -25,9 +31,9 @@ const categorieModel = new Schema({
         ref: "users"
     },
 
-    fournisseurs : [{
+    contries : [{
         type: Schema.Types.ObjectId,
-        ref: "fournisseur"
+        ref: "contry"
     }],
 
     date: {

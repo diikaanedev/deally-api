@@ -49,6 +49,8 @@ exports.store = async (req, res, next) => {
 
             quantite_per_article,
 
+            contry,
+
             publish_date } = req.body;
 
         console.log(images);
@@ -71,6 +73,9 @@ exports.store = async (req, res, next) => {
         product.condition_concervation = condition_concervation;
 
         product.stock = stock;
+        
+        product.contry = contry;
+
 
         product.quantite_per_article = quantite_per_article;
 

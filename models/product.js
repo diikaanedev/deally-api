@@ -34,6 +34,10 @@ const postModel = new Schema({
         type : String
     },
 
+    contry : {
+        type : String
+    },
+
     address : {
         type: Schema.Types.ObjectId,
         ref :'place'

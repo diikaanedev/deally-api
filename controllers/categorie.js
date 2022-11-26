@@ -11,11 +11,15 @@ exports.store = async (req, res, next) => {
 
     try {
 
-        let {title , parent}  = req.body;
+        let {title , parent , tiltleFrench , conntry}  = req.body;
 
         const categorie = categorieModel();
 
         categorie.title = title ;
+
+        categorie.contries = conntry ;
+
+        categorie.tiltleFrench = tiltleFrench ;
 
         if (parent!=undefined) {
             categorie.parent = parent ;
@@ -48,7 +52,7 @@ exports.store = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     try {
         
-        let {title , parent , fournisseur}  = req.body;
+        let {title , parent , tiltleFrench , contry}  = req.body;
 
         const categorie = categorieModel.findById(req.params.id);
 
@@ -57,13 +61,19 @@ exports.update = async (req, res, next) => {
             categorie.title = title;
         }
 
+        if (contry!=undefined) {
+            categorie.contry = contry;
+        }
+
+        if (tiltleFrench!=undefined) {
+            categorie.tiltleFrench = tiltleFrench;
+        }
+
         if (parent!=undefined) {
             categorie.parent = parent;
         }
 
-        if (fournisseur!=undefined) {
-            categorie.fournisseur = fournisseur;
-        }
+     
 
         const updateCateorie = await categorie.save();
 
@@ -95,7 +105,7 @@ exports.all = async  (req,res,next)=> {
         const categories = await categorieModel.find({
             parent : {
                 $exists: req.query.parent == undefined  ? false : true
-        }}).populate('image').exec();
+        }}).populate('image contries').exec();
     
        return res.json({
             message: ' listage réussi',
