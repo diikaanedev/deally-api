@@ -162,6 +162,35 @@ exports.all = async (req, res, next) => {
     }
 
 }
+
+exports.allByConntry = async (req, res, next) => {
+    
+    try {
+
+        const products = await productModel.find({
+            contry : req.query.contry
+        }).populate(populateObject).exec();
+
+        return res.status(200).json({
+            message: 'listage réussi',
+            status: 'OK',
+            data: products,
+            statusCode: 200
+        });
+
+
+    } catch (error) {
+        res.status(404).json({
+            statusCode: 404,
+            message: "erreur ",
+            data: error,
+            status: 'NOT OK'
+        });
+    }
+
+}
+
+
 exports.productByCategorie = async (req, res, next) => {
     try {
 

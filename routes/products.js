@@ -9,6 +9,7 @@ const productCtrl = require('../controllers/products');
 const routes = new Router();
 
 // Add routes
+routes.get('/contry', productCtrl.allByConntry);
 routes.post('/', authMiddleweare ,  productCtrl.store);
 routes.get('/', productCtrl.all);
 routes.get('/shop', authMiddleweare,  productCtrl.productsShop);
