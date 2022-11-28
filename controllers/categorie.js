@@ -11,13 +11,13 @@ exports.store = async (req, res, next) => {
 
     try {
 
-        let {title , parent , tiltleFrench , conntry}  = req.body;
+        let {title , parent , tiltleFrench , contry}  = req.body;
 
         const categorie = categorieModel();
 
         categorie.title = title ;
 
-        categorie.contries = conntry ;
+        categorie.contries = contry ;
 
         categorie.tiltleFrench = tiltleFrench ;
 
@@ -122,6 +122,85 @@ exports.all = async  (req,res,next)=> {
         });
     }
 }
+
+exports.allSonByContry = async  (req,res,next)=> {
+
+    
+    try {
+        const categories = await categorieModel.find({
+            parent : {
+                $exists: true 
+            }
+        }).populate('image parent').sort({"title":1}).exec();
+    
+    
+            const cat = categories.filter(e => {
+                console.log('e',e);
+                
+                const obj = Object.assign(e.parent);
+                console.log(obj.contries);
+                if (obj.contries.includes(req.query.contry.toString())) {
+                    return e;
+                }
+            });
+        
+           return res.json({
+                message: ' listage réussi',
+                status: 'OK',
+                data:cat,
+                statusCode: 201
+            });
+    } catch (error) {
+        res.json({
+            message: 'erreur mise à jour ',
+            statusCode: 404,
+            data: error,
+            status: 'NOT OK'
+        });
+    }
+}
+
+exports.allParentByContry = async  (req,res,next)=> {
+
+    
+    try {
+        const categories = await categorieModel.find({
+            parent : {
+                $exists: false 
+            },
+            
+        }).populate('image').sort({"title":1}).exec();
+    
+    
+            const cat = categories.filter(e => {
+                console.log('e',e);
+                
+                const obj = Object.assign(e);
+                if (obj.contries.includes(req.query.contry.toString())) {
+                    return e;
+                }
+            });
+        
+           return res.json({
+                message: ' listage réussi',
+                status: 'OK',
+                data:cat,
+                statusCode: 201
+            });
+    } catch (error) {
+        res.json({
+            message: 'erreur mise à jour ',
+            statusCode: 404,
+            data: error,
+            status: 'NOT OK'
+        });
+    }
+}
+
+
+
+
+
 
 exports.allSon = async  (req,res,next)=> {
 
