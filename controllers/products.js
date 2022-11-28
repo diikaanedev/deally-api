@@ -200,7 +200,9 @@ exports.productByCategorie = async (req, res, next) => {
 
         console.log(tabsCat);
 
-        const products = await productModel.find().populate(populateObject).exec();
+        const products = await productModel.find({
+            contry : req.query.contry
+        }).populate(populateObject).exec();
 
         const tabProducts = products.filter(e => {
 
@@ -238,14 +240,16 @@ exports.productByFam = async (req, res, next) => {
     try {
 
         const c = await categorieModel.find({
-            parent: req.query.cat
+            parent: req.query.cat,
         }).exec();
     
         const cat = Object.assign(c);
     
         const categorieTabs = cat.map(e => e._id.toString());
     
-        const products = await productModel.find().populate(populateObject).exec();
+        const products = await productModel.find({
+            contry :  req.query.contry
+        }).populate(populateObject).exec();
     
         let tabProducts = products.filter(e => {
     
