@@ -411,6 +411,7 @@ exports.verifNumberValid = async (req, res , next) => {
         "outboundSMSMessageRequest": {
             "address": "tel:"+req.body.telSender,
             "senderAddress": "tel:+224626501651",
+            "senderName": "Deally",
             "outboundSMSTextMessage": {
             "message": "Votre code de validation Deally est le suivant: "+num + "\n HxrjxBUsqpA"
             }
