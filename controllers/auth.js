@@ -126,7 +126,7 @@ exports.store = async (req , res , next) => {
         });
 
     }).catch(error => {
-        res.json({
+        res.status(404).json({
             message: 'Numéro de téléphone déjas existant',
             statusCode: 404,
             data:  error,
@@ -136,7 +136,7 @@ exports.store = async (req , res , next) => {
     
     } catch (error) {
     
-        res.json({
+        res.status(404).json({
             message: 'Erreur création',
             statusCode: 404,
             data:  error,
@@ -167,7 +167,7 @@ exports.auth = async  ( req, res ,_ ) => {
                 statusCode: 200
             });
         } else {
-            return res.json({
+            return res.status(401).json({
                 message: 'Identifiant   Incorrect',
                 status: 'NOT OK',
                 data:  error,
@@ -175,7 +175,7 @@ exports.auth = async  ( req, res ,_ ) => {
             });
         }
     }).catch(error => {
-        return res.json({
+        return res.status(401).json({
             message: 'Identifiant des  Incorrect',
             status: 'NOT OK',
             data: error,
@@ -344,7 +344,7 @@ exports.update = async (req, res ,next ) => {
         });
 
     } catch (error) {
-        res.json({
+        res.status(404).json({
             message: 'erreur mise à jour ',
             statusCode: 404,
             data: error,
@@ -361,7 +361,7 @@ exports.delete = (req, res , next ) => authModel.findByIdAndDelete(req.user.id_u
         data: null,
         statusCode: 200
     });
-}).catch( err => res.json({
+}).catch( err => res.status(404).json({
     message: 'erreur supréssion ',
     statusCode: 404,
     data: error,
