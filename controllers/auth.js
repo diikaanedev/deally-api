@@ -66,19 +66,7 @@ exports.store = async (req , res , next) => {
 
     auth.MaritalStatut  = req.body.MaritalStatut;
 
-
-    if(req.body.phone.substring(0,4) =="+234") {
-        auth.contry = "Nigéria";
-    }else  if(req.body.phone.substring(0,4) =="+224") {
-        auth.contry = "Guinee";
-
-    }else  if(req.body.phone.substring(0,4) =="+225") {
-        auth.contry = "Cote d\'ivoire";
-    }
-    else {
-        auth.contry = "Sénégal";
-
-    }
+    auth.contry = req.body.contry;
 
     auth.city = req.body.city ;
 
@@ -118,7 +106,7 @@ exports.store = async (req , res , next) => {
             message: 'Client creer avec succes',
             status: 'OK',
             data: {
-                roles : authSave.roles , 
+                role : authSave.role , 
                 phone : authSave.phone , 
                 token ,
             },
