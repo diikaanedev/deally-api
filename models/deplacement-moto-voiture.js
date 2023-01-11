@@ -14,7 +14,7 @@ const deplacementModel = new Schema({
 
     status:{
         type: String,
-        enum: ['pending driver', 'driver accept','driver cancel' , 'client cancel','completed'],
+        enum: ['pending driver', 'driver accept','canceled','completed'],
         default: 'pending driver'
     },
 
