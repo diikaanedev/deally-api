@@ -29,7 +29,7 @@ exports.store = async (req, res ,next)  => {
     
    try {
     const  {
-        typeDeplacement,price,moyenPaiement , latDepart,longDepart,nameDepart,latArrive,longArrive,nameArrive,someoneNom,someonePrenom, someonePhone,someonePhoto,someone    
+        typeDeplacement,price,moyenPaiement , latDepart,longDepart,nameDepart,latArrive,longArrive,nameArrive,someoneNom,someonePrenom, someonePhone,someonePhoto,someone,duree,distance    
     } = req.body; 
 
     const pointdepart  = pointModel();
@@ -63,6 +63,10 @@ exports.store = async (req, res ,next)  => {
     deplacement.typeDeplacement = typeDeplacement;
 
     deplacement.pointDepart = poitnD._id;
+
+    deplacement.duree = duree;
+    
+    deplacement.distance = distance;
 
     deplacement.pointArrive = poitnA._id;
 

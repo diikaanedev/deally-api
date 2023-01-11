@@ -61,6 +61,18 @@ const deplacementModel = new Schema({
         default: 'moto'
     },
 
+    duree :  {
+        type : String ,
+        default : ''
+    },
+
+    distance :  {
+        type : String ,
+        default : ''
+    },
+
+
+
     pointDepart : {
         type: Schema.Types.ObjectId,
         ref :'point'
