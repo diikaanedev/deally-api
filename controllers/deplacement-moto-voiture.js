@@ -56,7 +56,7 @@ exports.store = async (req, res ,next)  => {
     
     deplacement.typeDeplacement = typeDeplacement;
 
-    deplacement.pointDeparts = poitnD._id;
+    deplacement.pointDepart = poitnD._id;
 
     deplacement.pointArrive = poitnA._id;
 

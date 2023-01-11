@@ -61,7 +61,7 @@ const deplacementModel = new Schema({
         default: 'moto'
     },
 
-    pointDeparts : {
+    pointDepart : {
         type: Schema.Types.ObjectId,
         ref :'point'
     },
