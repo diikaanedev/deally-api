@@ -83,6 +83,10 @@ const deplacementModel = new Schema({
         ref :'point'
     },
 
+    date : {
+        type: Date,
+        default: Date.now()
+    }
 
 });
 
