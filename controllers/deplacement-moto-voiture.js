@@ -13,17 +13,18 @@ const populateDeplacement =  [ {
 },{
     path :'driver'
 },,{
-    path :'pointsDeparts'
+    path :'pointDepart'
 },{
-    path :'pointsArrive'
+    path :'pointArrive'
 }]
 
 
 
 exports.store = async (req, res ,next)  => {
+    
    try {
     const  {
-        typeDeplacement,price,moyenPaiement , latDepart,longDepart,nameDepart,latArrive,longArrive,nameArrive,someoneNom,someonePrenom, someonePhone,someonePhoto    
+        typeDeplacement,price,moyenPaiement , latDepart,longDepart,nameDepart,latArrive,longArrive,nameArrive,someoneNom,someonePrenom, someonePhone,someonePhoto,someone    
     } = req.body; 
 
     const pointdepart  = pointModel();
@@ -52,7 +53,7 @@ exports.store = async (req, res ,next)  => {
     
     deplacement.price = price;
     
-    deplacement.user = req.user;
+    deplacement.user = req.user.id_user;
     
     deplacement.typeDeplacement = typeDeplacement;
 
@@ -61,6 +62,7 @@ exports.store = async (req, res ,next)  => {
     deplacement.pointArrive = poitnA._id;
 
     if (someone != undefined) {
+
         const someoneElse = someoneElseModel();
 
         someoneElse.nom = someoneNom;
@@ -120,6 +122,8 @@ exports.one = async (req, res ,next)  => {
 } 
 
 exports.all = async (req, res ,next)  => {
+
+    
 
     try {
         
