@@ -56,9 +56,9 @@ exports.store = async (req, res ,next)  => {
     
     deplacement.typeDeplacement = typeDeplacement;
 
-    deplacement.pointsDeparts = poitnD._id;
+    deplacement.pointDeparts = poitnD._id;
 
-    deplacement.pointsArrive = poitnA._id;
+    deplacement.pointArrive = poitnA._id;
 
     if (someone != undefined) {
         const someoneElse = someoneElseModel();
