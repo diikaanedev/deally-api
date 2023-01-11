@@ -7,7 +7,12 @@ const someoneElseModel = require('../models/someone-else');
 const populateDeplacement =  [ {
     path: 'user',
 },{
-    path : 'someoneElse'
+    path : 'someoneElse',
+    populate: {
+        path: 'photo',
+        select: 'url',
+
+    }
 },{
     path :'driver_cancel'
 },{

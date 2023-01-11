@@ -17,7 +17,8 @@ const SomeoneElseModel = new Schema({
     },
 
     photo : {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref :'media'
     },
   
     date: {
