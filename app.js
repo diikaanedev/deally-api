@@ -52,6 +52,8 @@ const categorieRouter = require('./routes/categories');
 
 const paymentsRouter = require('./routes/payements');
 
+const deplacementVoitureMotoRouter = require('./routes/deplacement-voiture-moto');
+
 const authMidleweare = require('./midleweare/auth');
 
 
@@ -78,6 +80,7 @@ app.use('/v1/api/address'  , authMidleweare,placeRouter);
 app.use('/v1/api/categories'  , authMidleweare,categorieRouter);
 
 app.use('/v1/api/payments'  ,paymentsRouter);
+app.use('/v1/api/deplacement-moto-voiture'  ,deplacementVoitureMotoRouter);
 
 
 
