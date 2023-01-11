@@ -81,10 +81,12 @@ exports.store = async (req, res ,next)  => {
 
     const deplacementSave  = await deplacement.save();
 
+    const depFind  = await  deplacementModel.findById(deplacementSave._id).populate(populateDeplacement).exec();
+
     return res.status(201).json({
         message: 'deplacement crée avec succes',
         status: 'OK',
-        data: deplacementSave,
+        data: depFind,
         statusCode: 201
     })
    } catch (error) {
@@ -151,7 +153,7 @@ exports.allByDriver = async (req,res,next) => {
     try {
         
         const deplacements = await deplacementModel.find({
-            driver :  req.user
+            driver :  req.user.id_user
         }).populate(populateDeplacement).exec();
 
         return res.status(200).json({
@@ -175,7 +177,7 @@ exports.allByClient = async (req,res,next) => {
     try {
         
         const deplacements = await deplacementModel.find({
-            user : req.user
+            user : req.user.id_user
         }).populate(populateDeplacement).exec();
 
         return res.status(200).json({
