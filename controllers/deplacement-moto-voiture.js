@@ -50,7 +50,7 @@ exports.store = async (req, res ,next)  => {
     
     pointArrive.name = nameArrive ;
 
-    const poitnA= await pointdepart.save();
+    const poitnA= await pointArrive.save();
 
     const deplacement  = deplacementModel();
 
