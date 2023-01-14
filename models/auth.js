@@ -24,7 +24,7 @@ const UserModel = new Schema({
     
     role: {
         type : String,
-        enum: ['admin', 'super', 'fournisseur', 'commercant', 'transporteur','driver', 'logisticien','particulier','restaurant'],
+        enum: ['admin', 'super', 'fournisseur', 'commercant', 'transporteur','driver', 'logisticien','particulier','restaurant','grossite'],
         default: 'commercant'
     },
 
