@@ -40,47 +40,47 @@ exports.store = async (req , res , next) => {
     try {
         const passwordCrypt = bcrytjs.hashSync(req.body.password, salt);
         
-    const auth = authModel() ;
+        const auth = authModel() ;
   
-    auth.phone = req.body.phone ;
+        auth.phone = req.body.phone ;
 
-    auth.email = req.body.email ;
+        auth.email = req.body.email ;
 
-    auth.nameShop = req.body.nameShop ;
+        auth.nameShop = req.body.nameShop ;
 
-    auth.firstName = req.body.firstName ;
+        auth.firstName = req.body.firstName ;
 
-    auth.lastName = req.body.lastName ;
+        auth.lastName = req.body.lastName ;
 
-    auth.cacName = req.body.cacName ;
+        auth.cacName = req.body.cacName ;
+        
+        auth.cacNumber = req.body.cacNumber ;
+
+        auth.role = req.body.role ;
+
+        auth.TypeOfCompany = req.body.TypeOfCompany;
+
+        auth.NameofIDCard  = req.body.NameofIDCard;
+
+        auth.NumberfIDCard  = req.body.NumberfIDCard;
+
+        auth.MaritalStatut  = req.body.MaritalStatut;
+
+        auth.contry = req.body.contry;
+
+        auth.city = req.body.city ;
+
+        auth.hasAcceptedNewsletter = req.body.hasAcceptedNewsletter ;
+
+        auth.nameShop = req.body.nameShop ;
+
+        auth.sexe = req.body.sexe ;
     
-    auth.cacNumber = req.body.cacNumber ;
+        auth.password =  passwordCrypt ;
 
-    auth.role = req.body.role ;
+        auth.passwords = [passwordCrypt]
 
-    auth.TypeOfCompany = req.body.TypeOfCompany;
-
-    auth.NameofIDCard  = req.body.NameofIDCard;
-
-    auth.NumberfIDCard  = req.body.NumberfIDCard;
-
-    auth.MaritalStatut  = req.body.MaritalStatut;
-
-    auth.contry = req.body.contry;
-
-    auth.city = req.body.city ;
-
-    auth.hasAcceptedNewsletter = req.body.hasAcceptedNewsletter ;
-
-    auth.nameShop = req.body.nameShop ;
-
-    auth.sexe = req.body.sexe ;
-  
-    auth.password =  passwordCrypt ;
-
-    auth.passwords = [passwordCrypt]
-
-    auth.role = req.body.role;
+        auth.role = req.body.role;
 
 
     const token = jwt.sign({
@@ -134,6 +134,88 @@ exports.store = async (req , res , next) => {
     }
 }
 
+exports.addWholeSeller = async (req,res,next)=> {
+    try {
+
+        const findUser = await authModel.findById(req.user.id_user).exec();
+
+        if (findUser) {
+
+            const passwordCrypt = bcrytjs.hashSync(findUser.nameShop+"@"+new Date.now().getFullYear(), salt);
+        
+            const auth = authModel() ;
+      
+            auth.phone = req.body.phone ;
+    
+            auth.nameShop = req.body.nameShop ;
+    
+            auth.firstName = req.body.firstName ;
+    
+            auth.lastName = req.body.lastName ;
+    
+            auth.role = "grossiste";
+        
+            auth.password =  passwordCrypt ;
+    
+            auth.passwords = [passwordCrypt]
+    
+            auth.role = req.body.role;
+    
+    
+        const token = jwt.sign({
+            id_user: auth._id,
+            roles_user : auth.role , 
+            phone_user : auth.phone
+        }, process.env.JWT_SECRET, { expiresIn: '8784h' });
+    
+        auth.token = token; 
+       
+        const authSave = await auth.save();
+    
+              
+        authSave.save().then(auth => {
+            res.json({
+                message: 'Client creer avec succes',
+                status: 'OK',
+                data: {
+                    role : authSave.role , 
+                    phone : authSave.phone , 
+                    token ,
+                },
+                statusCode: 201
+            });
+    
+        }).catch(error => {
+            res.status(404).json({
+                message: 'Numéro de téléphone déjas existant',
+                statusCode: 404,
+                data:  error,
+                status: 'NOT OK'
+              });
+        });
+        }else {
+            
+        res.status(404).json({
+            message: 'Erreur création',
+            statusCode: 404,
+            data:  "erreur de creation user not found",
+            status: 'NOT OK'
+          });
+        }
+
+       
+    
+    } catch (error) {
+    
+        res.status(404).json({
+            message: 'Erreur création',
+            statusCode: 404,
+            data:  error,
+            status: 'NOT OK'
+          });
+    
+    }
+} 
 exports.auth = async  ( req, res ,_ ) => {
     if (req.body.phone != undefined) return authModel.findOne({
         phone : req.body.phone
@@ -314,7 +396,7 @@ exports.update = async (req, res ,next ) => {
         
 
     
-        await  auth.save();
+        const userUpdate =await  auth.save();
     
     
         const token = jwt.sign({
@@ -327,7 +409,7 @@ exports.update = async (req, res ,next ) => {
         return res.json({
             message: 'mise à jour réussi',
             status: 'OK',
-            data: {token , phone : auth.phone , role : auth.role  },
+            data: {token , phone : auth.phone , role : auth.role , user:userUpdate  },
             statusCode: 200
         });
 
