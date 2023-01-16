@@ -10,6 +10,18 @@ const UserModel = new Schema({
         unique : true
     },
 
+    active : {
+        type: String,
+        default :'active'
+    },
+
+
+    fournisseur : [{
+        type: Schema.Types.ObjectId,
+        ref: "users",
+        default : []
+    }],
+
     email: {
         type: String,
     },

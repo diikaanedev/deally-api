@@ -13,6 +13,7 @@ const routes = express.Router();
 // Add routes
 routes.get('/', authMidleweare ,authCtrl.findAuth);
 routes.post('/validNumber' , getToken , authCtrl.verifNumberValid);
+routes.post('/add-grossite' , authMidleweare,getToken , authCtrl.addWholeSeller);
 routes.post('/validCode' , authCtrl.verifCode);
 routes.post('/', authCtrl.store);
 routes.post('/auth', authCtrl.auth);
