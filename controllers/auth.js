@@ -165,7 +165,7 @@ exports.addWholeSeller = async (req,res,next)=> {
                     "outboundSMSMessageRequest": {
                         "address": "tel:"+req.body.phone,
                         "senderAddress": "tel:+224626501651",
-                        "senderName": "Deally",
+                        "senderName": "Deally-"+findUser.nameShop ,
                         "outboundSMSTextMessage": {
                         "message": "Votre fournisseur "+findUser.nameShop +" de Deally vous à inscrit comme grossite ."
                         }
@@ -245,7 +245,7 @@ exports.addWholeSeller = async (req,res,next)=> {
                 "outboundSMSMessageRequest": {
                     "address": "tel:"+req.body.phone,
                     "senderAddress": "tel:+224626501651",
-                    "senderName": "Deally",
+                    "senderName": "Deally-"+findUser.nameShop ,
                     "outboundSMSTextMessage": {
                     "message": "Votre fournisseur "+findUser.nameShop +" de Deally vous à inscrit comme grossite  merci de vous connectez pour administer votre entrepôt avec ce mot de passe :"+findUser.nameShop+"@"+d.getFullYear().toString()
                     }
