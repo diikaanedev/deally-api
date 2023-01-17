@@ -136,33 +136,117 @@ exports.store = async (req , res , next) => {
 
 exports.addWholeSeller = async (req,res,next)=> {
 
+    
+
     try {
         const findUser = await authModel.findById(req.user.id_user).exec();
 
-    const auth = authModel() ;
-
-    const d =new Date();
-
-    console.log('req.accessToken',req.accessToken);
+        const auth = authModel() ;
     
-
-    if (findUser) {
-
-        const authFind = await  authModel.findOne({
-            phone : req.body.phone
-        }).exec();
-        console.log('authFind',authFind);
-        if (authFind!=null) {
-            authFind.fournisseur.push(req.user.id_user);
-            const authSave = await authFind.save();
-
-            var data = JSON.stringify({
+        const d =new Date();
+    
+        console.log('req.accessToken',req.accessToken);
+        
+    
+        if (findUser) {
+    
+            const authFind = await  authModel.findOne({
+                phone : req.body.phone
+            }).exec();
+            console.log('authFind',authFind);
+            if (authFind!=null) {
+                authFind.fournisseur.push(req.user.id_user);
+                authFind.contry = req.body.contry;
+                authFind.matricule.push("WH-"+findUser.nameShop+"-"+req.body.contry);
+                const authSave = await authFind.save();
+    
+                var data = JSON.stringify({
+                    "outboundSMSMessageRequest": {
+                        "address": "tel:"+req.body.phone,
+                        "senderAddress": "tel:+224626501651",
+                        "senderName": "Deally",
+                        "outboundSMSTextMessage": {
+                        "message": "Votre fournisseur "+findUser.nameShop +" de Deally vous à inscrit comme grossite ."
+                        }
+                    }
+                    });
+            
+                    var config = {
+                    method: 'post',
+                    url: 'https://api.orange.com/smsmessaging/v1/outbound/tel:+224626501651/requests',
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        'Authorization': 'Bearer '+req.accessToken
+                    },
+                    data : data
+                    };
+            
+                    axiosOrange(config)
+                    .then(function (response) {
+                        const obj = Object.assign(response.data);
+                       return  res.status(201).json({
+                            message: 'code envoyé avec success ',
+                            status: 'OK',
+                            data: authSave,
+                            statusCode: 201
+                        })
+                    })
+                    .catch(function (error) {
+                       return res.status(404).json({
+                            message: 'erreur envoie sms phone déjas utilisé ',
+                            status: 'OK',
+                            data: error,
+                            statusCode: 404
+                        })
+                    });
+    
+    
+            
+                    
+    
+                
+            } else {
+                    
+                    const passwordCrypt = bcrytjs.hashSync(findUser.nameShop+"@"+d.getFullYear().toString(), salt);
+            
+                    auth.phone = req.body.phone ;
+    
+                    auth.nameShop = req.body.nameShop ;
+    
+                    auth.firstName = req.body.firstName ;
+    
+                    auth.fournisseur = [req.user.id_user] ;
+    
+                    auth.lastName = req.body.lastName ;
+    
+                    auth.contry = req.body.contry;
+    
+                    auth.matricule.push("WH-"+findUser.nameShop+"-"+req.body.contry);
+    
+                    auth.role = "grossiste";
+                
+                    auth.password =  passwordCrypt ;
+    
+                    auth.passwords = [passwordCrypt];
+    
+                
+                    const token = jwt.sign({
+                        id_user: auth._id,
+                        roles_user : auth.role , 
+                        phone_user : auth.phone
+                    }, process.env.JWT_SECRET, { expiresIn: '8784h' });
+                
+                    auth.token = token; 
+    
+                    const authSave = await auth.save();
+    
+                    var data = JSON.stringify({
                 "outboundSMSMessageRequest": {
                     "address": "tel:"+req.body.phone,
                     "senderAddress": "tel:+224626501651",
                     "senderName": "Deally",
                     "outboundSMSTextMessage": {
-                    "message": "Votre fournisseur "+findUser.nameShop +" de Deally vous à inscrit comme grossite ."
+                    "message": "Votre fournisseur "+findUser.nameShop +" de Deally vous à inscrit comme grossite  merci de vous connectez pour administer votre entrepôt avec ce mot de passe :"+findUser.nameShop+"@"+d.getFullYear().toString()
                     }
                 }
                 });
@@ -180,7 +264,7 @@ exports.addWholeSeller = async (req,res,next)=> {
                 axiosOrange(config)
                 .then(function (response) {
                     const obj = Object.assign(response.data);
-                   return  res.status(201).json({
+                    res.status(201).json({
                         message: 'code envoyé avec success ',
                         status: 'OK',
                         data: authSave,
@@ -188,105 +272,29 @@ exports.addWholeSeller = async (req,res,next)=> {
                     })
                 })
                 .catch(function (error) {
-                   return res.status(404).json({
+                    res.status(404).json({
                         message: 'erreur envoie sms phone déjas utilisé ',
                         status: 'OK',
                         data: error,
                         statusCode: 404
                     })
                 });
-
-
         
-                
-
-            
-        } else {
-                
-                const passwordCrypt = bcrytjs.hashSync(findUser.nameShop+"@"+d.getFullYear().toString(), salt);
         
-                auth.phone = req.body.phone ;
-
-                auth.nameShop = req.body.nameShop ;
-
-                auth.firstName = req.body.firstName ;
-
-                auth.fournisseur = [req.user.id_user] ;
-
-                auth.lastName = req.body.lastName ;
-
-                auth.role = "grossiste";
-            
-                auth.password =  passwordCrypt ;
-
-                auth.passwords = [passwordCrypt];
-
-            
-                const token = jwt.sign({
-                    id_user: auth._id,
-                    roles_user : auth.role , 
-                    phone_user : auth.phone
-                }, process.env.JWT_SECRET, { expiresIn: '8784h' });
-            
-                auth.token = token; 
-
-                const authSave = await auth.save();
-
-                var data = JSON.stringify({
-            "outboundSMSMessageRequest": {
-                "address": "tel:"+req.body.phone,
-                "senderAddress": "tel:+224626501651",
-                "senderName": "Deally",
-                "outboundSMSTextMessage": {
-                "message": "Votre fournisseur "+findUser.nameShop +" de Deally vous à inscrit comme grossite  merci de vous connectez pour administer votre entrepôt avec ce mot de passe :"+findUser.nameShop+"@"+d.getFullYear().toString()
-                }
             }
-            });
+            
+            
+        
     
-            var config = {
-            method: 'post',
-            url: 'https://api.orange.com/smsmessaging/v1/outbound/tel:+224626501651/requests',
-            headers: { 
-                'Content-Type': 'application/json', 
-                'Authorization': 'Bearer '+req.accessToken
-            },
-            data : data
-            };
-    
-            axiosOrange(config)
-            .then(function (response) {
-                const obj = Object.assign(response.data);
-                res.status(201).json({
-                    message: 'code envoyé avec success ',
-                    status: 'OK',
-                    data: authSave,
-                    statusCode: 201
-                })
-            })
-            .catch(function (error) {
-                res.status(404).json({
-                    message: 'erreur envoie sms phone déjas utilisé ',
-                    status: 'OK',
-                    data: error,
-                    statusCode: 404
-                })
-            });
-    
-    
+        } else {
+            
+        return res.status(404).json({
+            message: 'Erreur création',
+            statusCode: 404,
+            data:  "erreur de creation user not found",
+            status: 'NOT OK'
+          });
         }
-        
-        
-    
-
-    } else {
-        
-    return res.status(404).json({
-        message: 'Erreur création',
-        statusCode: 404,
-        data:  "erreur de creation user not found",
-        status: 'NOT OK'
-      });
-    }
     } catch (error) {
         return res.status(404).json({
             message: 'Erreur création',

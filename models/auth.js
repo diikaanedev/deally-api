@@ -101,6 +101,11 @@ const UserModel = new Schema({
         default :""
     },
 
+    matricule  : {
+        type : Array,
+        default :[]
+    },
+
     lastName  : {
         type : String,
         default :""
@@ -108,12 +113,12 @@ const UserModel = new Schema({
 
     contry : {
         type : String,
-        default :"Nigeria"
+        default :""
     },
 
     city : {
         type : String,
-        default :"lagos"
+        default :""
     },
 
     address : [{
