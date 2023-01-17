@@ -18,6 +18,7 @@ const axiosOrange = require('axios');
 
 var dateTime = require('node-datetime');
 
+var ObjectID = require('mongodb').ObjectID
 
 
 require('dotenv').config({
@@ -306,7 +307,32 @@ exports.addWholeSeller = async (req,res,next)=> {
    
 
    
-} 
+}
+
+exports.getWholeSeller = async (req, res, next) => {
+    
+    try {
+        const wholeSellers = await authModel.find({
+            fournisseur :{
+                $elemMatch : {$eq:ObjectID(req.user.id_user)}
+            }}).exec();
+    
+        return res.status(200).json({
+            message: 'listes wholeseller  ',
+            statusCode: 200,
+            data: wholeSellers,
+            status: 'OK'
+          });
+    } catch (error) {
+       return res.status(404).json({
+            message: 'erreur mise à jour ',
+            statusCode: 404,
+            data: error,
+            status: 'NOT OK'
+          });
+    }
+}
+
 exports.auth = async  ( req, res ,_ ) => {
     if (req.body.phone != undefined) return authModel.findOne({
         phone : req.body.phone
