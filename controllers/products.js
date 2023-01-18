@@ -115,11 +115,13 @@ exports.store = async (req, res, next) => {
 
         const u = await user.save();
 
+        const pS = await productModel.findById(saveProduct._id).populate(populateObject).exec();
+
 
         return res.status(201).json({
             message: ' àjout réussi',
             status: 'OK',
-            data: saveProduct,
+            data: pS,
             statusCode: 201
         });
 
