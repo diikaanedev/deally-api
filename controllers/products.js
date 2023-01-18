@@ -318,6 +318,35 @@ exports.productsShop = async (req, res, next) => {
 
 }
 
+exports.wholeSaler = async (req, res, next) => {
+
+    try {
+
+        const userFind = await authModel.findById(req.user.id_user).exec();
+
+        const products = await productModel.find({
+            shop: userFind.fournisseur[0]
+        }).populate(populateObject).exec();
+
+        return res.status(200).json({
+            message: 'listage réussi',
+            status: 'OK',
+            data: products,
+            statusCode: 200
+        });
+
+
+    } catch (error) {
+        res.status(404).json({
+            statusCode: 404,
+            message: "erreur ",
+            data: error,
+            status: 'NOT OK'
+        });
+    }
+
+}
+
 exports.one = async (req, res, next) => {
     try {
 
