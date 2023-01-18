@@ -28,6 +28,9 @@ exports.store = async (req, res, next) => {
 
     try {
 
+        const user = await authModel.findById(req.user.id_user).exec();
+
+
         let {
             images,
 
@@ -48,8 +51,6 @@ exports.store = async (req, res, next) => {
             stock,
 
             quantite_per_article,
-
-            contry,
 
             publish_date } = req.body;
 
@@ -74,8 +75,7 @@ exports.store = async (req, res, next) => {
 
         product.stock = stock;
         
-        product.contry = contry;
-
+        product.contry = user.conntry;
 
         product.quantite_per_article = quantite_per_article;
 
@@ -107,7 +107,6 @@ exports.store = async (req, res, next) => {
 
 
 
-        const user = await authModel.findById(req.user.id_user).exec();
 
         console.log(req.user.id_user);
         console.log(user);
