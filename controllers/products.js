@@ -325,7 +325,8 @@ exports.wholeSaler = async (req, res, next) => {
     try {
 
         const userFind = await authModel.findById(req.user.id_user).exec();
-
+        
+        
         const products = await productModel.find({
             shop: userFind.fournisseur[0]
         }).populate(populateObject).exec();

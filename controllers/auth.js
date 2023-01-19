@@ -510,6 +510,12 @@ exports.update = async (req, res ,next ) => {
             auth.nameShop = req.body.nameShop;
     
         }
+
+        if (req.body.avatar !=undefined) {
+            
+            auth.avatar = req.body.avatar;
+    
+        }
         
 
     
