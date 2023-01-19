@@ -2,6 +2,8 @@ const authModel = require('../models/auth');
 
 const codePhoneModel = require('../models/code-phone');
 
+const fileModel  =  require('../models/file');
+
 const bcrytjs = require('bcryptjs');
 
 const salt = bcrytjs.genSaltSync(10);
@@ -512,8 +514,10 @@ exports.update = async (req, res ,next ) => {
         }
 
         if (req.body.avatar !=undefined) {
+
+            const ava  =  await fileModel.findById(req.body.avatar).exec();
             
-            auth.avatar = req.body.avatar;
+            auth.avatar = ava.url;
     
         }
         
