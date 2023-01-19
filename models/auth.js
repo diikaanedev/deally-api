@@ -82,13 +82,13 @@ const UserModel = new Schema({
 
 
     avatar : {
-        type: Schema.Types.ObjectId,
-        ref: "file"
+        type: String,
+        default :""
     },
     
     cover : {
-        type: Schema.Types.ObjectId,
-        ref: "file"
+        type: String,
+        default :""
     },
 
     nameShop : {
