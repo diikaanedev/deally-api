@@ -5,6 +5,11 @@ require('dotenv').config({
 });
 
 
+const populateObject = [{
+    path: 'point',
+}];
+
+
 exports.store = async (req, res, next) => {
 
     console.log(req.body);
@@ -14,48 +19,32 @@ exports.store = async (req, res, next) => {
     try {
 
 
-        let { lastName, firstName, livraisonOrFacture, isMap, phone, zipcode, country, city, addr2, addr1, name } = req.body;
+        let { lat, long, name } = req.body;
 
         const address = addressModel();
 
-        console.log(isMap);
+        const point  = pointModel();
 
-        address.user_created = req.user.id_user;
-        address.lastName = lastName;
-        address.firstName = firstName;
-        address.livraisonOrFacture = livraisonOrFacture;
-        address.phone = phone;
-        address.zipcode = zipcode;
-        address.country = country;
-        address.city = city;
-        address.addr2 = addr2;
-        address.addr1 = addr1;
-        address.name = name;
+        point.lat = lat  ;
 
-        // if (isMap != undefined) {
-        //     address.isMap = true;
-        //     address.addr1 = addr1;
-        // } else {
-        //     address.lastName = lastName;
-        //     address.fisrtName = fisrtName;
-        //     address.livraisonOrFacture = livraisonOrFacture;
-        //     address.phone = phone;
-        //     address.zipcode = zipcode;
-        //     address.country = country;
-        //     address.city = city;
-        //     address.addr2 = addr2;
-        //     address.addr1 = addr1;
-        //     address.name = name;
+        point.long = long ;
+        
+        point.name =name ;
 
-        // }
+        const poitnS= await point.save();
 
+        address.point = poitnS._id;
+
+        address.user = req.user.id_user;
 
         const addressSave = await address.save();
+
+        const addressFind = await addressModel.findById(addressSave._id).populate(populateObject).exec();
 
         return res.status(201).json({
             message: ' creation réussi',
             status: 'OK',
-            data: addressSave,
+            data: addressFind,
             statusCode: 201
         });
 
@@ -75,79 +64,79 @@ exports.update = async (req, res, next) => {
     
     try {
 
-        let { lastName, firstName, livraisonOrFacture, isMap, phone, zipcode, country, city, addr2, addr1, name, product ,isDefault } = req.body;
+        let { lat, long, name} = req.body;
 
-        const address =  await addressModel.findById(req.params.id);
+        const address =  await addressModel.findById(req.params.id).populate(populateObject).exec();
     
     
-        if (firstName != undefined) {
-            address.firstName = firstName;
-        }
+        // if (lat != undefined) {
+        //     address.firstName = firstName;
+        // }
     
-        if (lastName != undefined) {
-            address.lastName = lastName;
-        }
+        // if (lastName != undefined) {
+        //     address.lastName = lastName;
+        // }
     
-        if (livraisonOrFacture != undefined) {
-            address.livraisonOrFacture = livraisonOrFacture;
-        }
+        // if (livraisonOrFacture != undefined) {
+        //     address.livraisonOrFacture = livraisonOrFacture;
+        // }
     
-        if (isMap != undefined) {
-            address.isMap = isMap;
-        }
+        // if (isMap != undefined) {
+        //     address.isMap = isMap;
+        // }
 
-        if (isDefault != undefined) {
-           await addressModel.updateMany({
-                isDefault: true
-            } , {
-                isDefault : false
-            });
+        // if (isDefault != undefined) {
+        //    await addressModel.updateMany({
+        //         isDefault: true
+        //     } , {
+        //         isDefault : false
+        //     });
             
-            address.isDefault = isDefault;
-        }
+        //     address.isDefault = isDefault;
+        // }
 
     
-        if (phone != undefined) {
-            address.phone = phone;
-        }
+        // if (phone != undefined) {
+        //     address.phone = phone;
+        // }
     
-        if (zipcode != undefined) {
-            address.zipcode = zipcode;
-        }
+        // if (zipcode != undefined) {
+        //     address.zipcode = zipcode;
+        // }
     
-        if (country != undefined) {
-            address.country = country;
-        }
+        // if (country != undefined) {
+        //     address.country = country;
+        // }
     
-        if (city != undefined) {
-            address.city = city;
-        }
+        // if (city != undefined) {
+        //     address.city = city;
+        // }
     
-        if (addr2 != undefined) {
-            address.addr2 = addr2;
-        }
+        // if (addr2 != undefined) {
+        //     address.addr2 = addr2;
+        // }
     
-        if (addr1 != undefined) {
-            address.addr1 = addr1;
-        }
+        // if (addr1 != undefined) {
+        //     address.addr1 = addr1;
+        // }
     
-        if (name != undefined) {
-            address.name = name;
-        }
+        // if (name != undefined) {
+        //     address.name = name;
+        // }
     
-        if (product != undefined) {
+        // if (product != undefined) {
     
-            if (address.prodcuts.includes(product)) {
-                address.prodcuts.push(product);
-            }
-        }
+        //     if (address.prodcuts.includes(product)) {
+        //         address.prodcuts.push(product);
+        //     }
+        // }
     
-        const updateAddress = await address.save();
+        // const updateAddress = await address.save();
     
        return res.json({
             message: ' mise à jour réussi',
             status: 'OK',
-            data: updateAddress,
+            data: address,
             statusCode: 201
         });
     
@@ -192,10 +181,9 @@ exports.allUser = async (req, res, next) => {
    
     try {
 
-        console.log(req.user.id_user);
         const address = await addressModel.find({
-            user_created: req.user.id_user
-        }).exec();
+            user: req.user.id_user
+        }).populate(populateObject).exec();
     
     
         return res.json({
@@ -271,7 +259,7 @@ exports.delete = async (req, res, next) => {
 
         
     try {
-        const address =  addressModel.findByIdAndDelete(req.params.id).then(result => {
+        addressModel.findByIdAndDelete(req.params.id).then(result => {
             res.json({
                 message: ' supression réussi',
                 status: 'OK',

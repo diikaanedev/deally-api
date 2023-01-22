@@ -4,46 +4,14 @@ const Schema = mongoose.Schema;
 
 const addressModel = new Schema({
 
-    name: {
-        type: String,
+   
+
+    point : {
+        type: Schema.Types.ObjectId,
+        ref: "point"
     },
 
-    addr1 : {
-        type: String
-    },
-
-    addr2 : {
-        type: String
-    },
-
-    city : {
-        type: String
-    },
-
-    country : {
-        type : String
-    },
-
-    zipcode : {
-        type: String
-    },
-
-    phone : {
-        type: String,
-    },
-
-
-    isMap : {
-        type: Boolean,
-        default : false
-    },
-
-    isDefault : {
-        type: Boolean,
-        default : false
-    },
-
-    user_created : {
+    user : {
         type: Schema.Types.ObjectId,
         ref: "users"
     },
@@ -58,14 +26,6 @@ const addressModel = new Schema({
         type: Schema.Types.ObjectId,
         ref :'product'
     }],
-
-    firstName : {
-        type: String
-    },
-
-    lastName : {
-        type: String
-    },
 
     date: {
         type: Date,
