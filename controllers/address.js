@@ -1,4 +1,5 @@
 const addressModel = require('../models/address');
+const pointModel  =  require('../models/point');
 
 require('dotenv').config({
     path: './.env'
@@ -13,7 +14,8 @@ const populateObject = [{
 exports.store = async (req, res, next) => {
 
     console.log(req.body);
-
+    
+    
 
 
     try {
