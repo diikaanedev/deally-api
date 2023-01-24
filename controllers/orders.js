@@ -143,7 +143,7 @@ exports.allByClient = async (req, res, next) => {
     try {
         const orders = await ordersModel.find({
             client: req.user.id_user
-        }).populate(populate).exec();
+        }).populate(populateObject).exec();
 
 
         res.json({
@@ -167,7 +167,7 @@ exports.allByClient = async (req, res, next) => {
 exports.allByShop = async (req, res, next) => {
 
     try {
-        const orders = await ordersModel.find(req.query).populate(populate).exec();
+        const orders = await ordersModel.find(req.query).populate(populateObject).exec();
 
         const v = orders.filter(e => {
 
@@ -205,7 +205,7 @@ exports.allByShop = async (req, res, next) => {
 
 exports.one = async (req, res, next) => {
     try {
-        const order = await ordersModel.findById(req.params.id).populate(populate).exec();
+        const order = await ordersModel.findById(req.params.id).populate(populateObject).exec();
         res.json({
             message: 'order trouvée avec succes',
             status: 'OK',
@@ -225,7 +225,7 @@ exports.one = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     let { items, price, status } = req.body;
 
-    const order = ordersModel.findById(req.params.id).populate(populate).exec();
+    const order = ordersModel.findById(req.params.id).populate(populateObject).exec();
 
     if (items != undefined) {
         order.items = items;
