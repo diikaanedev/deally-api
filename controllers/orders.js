@@ -3,6 +3,37 @@ const ordersItemsModel = require('../models/order-item');
 const orderid = require('order-id')('diikaanedevDeally');
 var dateTime = require('node-datetime');
 
+const populateObject = [{
+    path  : 'items' ,
+    populate : [
+        {
+            path: 'product',
+            populate :  [
+                {
+                    path: 'category',
+                    select: 'title',
+                }, {
+                    path: 'address',
+                }, {
+                    path: 'images'
+                }, {
+                    path: 'pack_price'
+                }
+            ]
+        },{
+            path : 'livraison',
+            populate :  {
+                path :'point'
+            }
+        }
+    ]
+},{
+    path  :'livraison',
+    populate : {
+        path  :'point'
+    }
+}];
+
 
 exports.store = async (req, res, next) => {
 
@@ -11,7 +42,7 @@ exports.store = async (req, res, next) => {
         console.log('body => ' , req.body);
         
        
-        let { items, price, livraison , typePaiment , refPaid , paiStatus } = req.body;
+        let { items, price, livraison , typePaiment  , paiStatus } = req.body;
 
         const orderss = await ordersModel.find(req.query).exec();
 
@@ -61,10 +92,12 @@ exports.store = async (req, res, next) => {
 
         }
 
+        const saveFind =  await ordersModel.findById(saveOrder._id).populate(populate).exec();
+
         return res.json({
             message: 'order crée avec succes',
             status: 'OK',
-            data: saveOrder,
+            data: saveFind,
             statusCode: 201
         })
     } catch (error) {
@@ -81,14 +114,7 @@ exports.store = async (req, res, next) => {
 exports.all = async (req, res, next) => {
    
     try {
-        const orders = await ordersModel.find(req.query).populate({
-            path: 'items',
-            populate: {
-                path: 'product',
-                select: 'shop',
-
-            }
-        }).exec();
+        const orders = await ordersModel.find(req.query).populate(populate).exec();
 
 
         res.json({
@@ -113,14 +139,7 @@ exports.allByClient = async (req, res, next) => {
     try {
         const orders = await ordersModel.find({
             client: req.user.id_user
-        }).populate({
-            path: 'items',
-            populate: {
-                path: 'product',
-                select: 'shop',
-
-            }
-        }).exec();
+        }).populate(populate).exec();
 
 
         res.json({
@@ -144,16 +163,7 @@ exports.allByClient = async (req, res, next) => {
 exports.allByShop = async (req, res, next) => {
 
     try {
-        const orders = await ordersModel.find(req.query).populate({
-            path: 'items',
-            populate: {
-                path: 'product',
-                select: 'shop',
-                match: {
-                    shop: req.user.id_user
-                }
-            }
-        }).exec();
+        const orders = await ordersModel.find(req.query).populate(populate).exec();
 
         const v = orders.filter(e => {
 
@@ -191,7 +201,7 @@ exports.allByShop = async (req, res, next) => {
 
 exports.one = async (req, res, next) => {
     try {
-        const order = await ordersModel.findById(req.params.id).populate('items').exec();
+        const order = await ordersModel.findById(req.params.id).populate(populate).exec();
         res.json({
             message: 'order trouvée avec succes',
             status: 'OK',
@@ -211,7 +221,7 @@ exports.one = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     let { items, price, status } = req.body;
 
-    const order = ordersModel.findById(req.params.id).exec();
+    const order = ordersModel.findById(req.params.id).populate(populate).exec();
 
     if (items != undefined) {
         order.items = items;

@@ -25,8 +25,8 @@ const orderModel = new Schema({
     },
     typePaiment : {
         type: String,
-        enum: ['BANK_TRANSFERT', 'POS_DELIVERY','CASH_DELIVERY' , 'MICROFINACING' ],
-        default: 'BANK_TRANSFERT'
+        enum: ['espece', 'om','mtn' , "wallet",'micro','bank' ],
+        default: 'espece'
     },
 
     reference : {
