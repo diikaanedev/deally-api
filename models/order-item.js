@@ -51,11 +51,10 @@ const itemOrdersModel = new Schema({
 
     typePaiment : {
         type: String,
-        enum: ['BANK_TRANSFERT', 'POS_DELIVERY','CASH_DELIVERY' , 'MICROFINACING' ],
-        default: 'BANK_TRANSFERT'
+        enum: ['espece', 'om','mtn' , 'micro','bank' ],
+        default: 'espece'
     },
 
-    
 
     statusClient : {
         type: String,
