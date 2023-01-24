@@ -4,9 +4,18 @@ const productModel = require('../models/product');
 
 const populateObject = [{
     path: 'product',
-    populate :  {
-        path :'media'
-    }
+    populate :  [
+        {
+            path: 'category',
+            select: 'title',
+        }, {
+            path: 'address',
+        }, {
+            path: 'images'
+        }, {
+            path: 'pack_price'
+        }
+    ]
 },{
     path : 'livraison',
     populate :  {
@@ -16,9 +25,12 @@ const populateObject = [{
 
 exports.store = async (req, res ,next ) => {
     
+   
+
+
     try {
         
-        let {product   , quantite , price , typePaiment } = req.body ;
+        let {product   , quantite , priceTotal , typePaiment } = req.body ;
 
         console.log(req.body);
 
@@ -37,7 +49,7 @@ exports.store = async (req, res ,next ) => {
 
             item.typePaiment = typePaiment ;
 
-            item.priceTotal = price ;
+            item.priceTotal = priceTotal ;
 
             item.client = req.user.id_user ;
 

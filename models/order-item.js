@@ -51,7 +51,7 @@ const itemOrdersModel = new Schema({
 
     typePaiment : {
         type: String,
-        enum: ['espece', 'om','mtn' , 'micro','bank' ],
+        enum: ['espece', 'om','mtn' , "wallet",'micro','bank' ],
         default: 'espece'
     },
 
@@ -67,7 +67,7 @@ const itemOrdersModel = new Schema({
     },
 
     priceTotal : {
-        type : String
+        type : Number
     },
 
     date: {

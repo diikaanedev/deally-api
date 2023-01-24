@@ -35,7 +35,7 @@ exports.store = async (req, res, next) => {
 
         order.reference = d;
 
-        order.typePaiment =  typePaiment == 0  ? "BANK_TRANSFERT" :  typePaiment == 1  ? "POS_DELIVERY" :  typePaiment == 2  ? "CASH_DELIVERY" : typePaiment == 3  ? "MICROFINACING" : "BANK_TRANSFERT"
+        order.typePaiment =  typePaiment 
 
 
         const saveOrder = await order.save();
@@ -51,7 +51,7 @@ exports.store = async (req, res, next) => {
 
             orderItems.livraison = livraison;
 
-            orderItems.typePaiment =  typePaiment == 0  ? "BANK_TRANSFERT" :  typePaiment == 1  ? "POS_DELIVERY" :  typePaiment == 2  ? "CASH_DELIVERY" : typePaiment == 3  ? "MICROFINACING" : "BANK_TRANSFERT"
+            orderItems.typePaiment =  typePaiment 
 
             orderItems.reference = d;
             
