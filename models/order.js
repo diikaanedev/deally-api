@@ -34,7 +34,11 @@ const orderModel = new Schema({
         default :''
     },
 
-
+    client : {
+        type: Schema.Types.ObjectId,
+        ref :'client'
+    },
+ 
     date: {
         type: Date,
         default: Date.now()

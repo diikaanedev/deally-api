@@ -37,6 +37,7 @@ const populateObject = [{
 
 exports.store = async (req, res, next) => {
 
+
     try {
 
         console.log('body => ' , req.body);
@@ -62,6 +63,8 @@ exports.store = async (req, res, next) => {
 
         order.price = price;
 
+        order.client = req.user.id_user;
+
         order.livraison = livraison;
 
         order.reference = d;
@@ -86,13 +89,13 @@ exports.store = async (req, res, next) => {
 
             orderItems.reference = d;
             
-            orderItems.referencePay = refPaid!=undefined ? refPaid : ""  ;
+            // orderItems.referencePay = refPaid!=undefined ? refPaid : ""  ;
 
             const n = await orderItems.save();
 
         }
 
-        const saveFind =  await ordersModel.findById(saveOrder._id).populate(populate).exec();
+        const saveFind =  await ordersModel.findById(saveOrder._id).populate(populateObject).exec();
 
         return res.json({
             message: 'order crée avec succes',
@@ -100,6 +103,7 @@ exports.store = async (req, res, next) => {
             data: saveFind,
             statusCode: 201
         })
+
     } catch (error) {
         res.json({
             message: 'Erreur creation',
