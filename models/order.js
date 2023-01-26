@@ -36,7 +36,7 @@ const orderModel = new Schema({
 
     client : {
         type: Schema.Types.ObjectId,
-        ref :'client'
+        ref :'users'
     },
  
     date: {

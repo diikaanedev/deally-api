@@ -350,6 +350,8 @@ exports.wholeSaler = async (req, res, next) => {
 
 }
 
+
+
 exports.one = async (req, res, next) => {
     try {
 

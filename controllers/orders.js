@@ -3,8 +3,8 @@ const ordersItemsModel = require('../models/order-item');
 const orderid = require('order-id')('diikaanedevDeally');
 var dateTime = require('node-datetime');
 
-const populateObject = [{
-    path  : 'items' ,
+const populateObject =[{
+    path : 'items',
     populate : [
         {
             path: 'product',
@@ -20,23 +20,19 @@ const populateObject = [{
                     path: 'pack_price'
                 }
             ]
-        },{
-            path : 'livraison',
-            populate :  {
-                path :'point'
-            }
         }
     ]
 },{
-    path  :'livraison',
-    populate : {
-        path  :'point'
+    path: 'livraison',
+    populate :  {
+        path  : 'point'
     }
 }];
 
 
 exports.store = async (req, res, next) => {
 
+    
 
     try {
 
@@ -45,7 +41,7 @@ exports.store = async (req, res, next) => {
        
         let { items, price, livraison , typePaiment  , paiStatus } = req.body;
 
-        const orderss = await ordersModel.find(req.query).exec();
+        const orderss = await ordersModel.find({}).exec();
 
         var dt = dateTime.create();
    
@@ -74,10 +70,16 @@ exports.store = async (req, res, next) => {
 
         const saveOrder = await order.save();
 
+        console.log(saveOrder._id);
+
 
         for (const iterator of items) {
 
             const orderItems = await ordersItemsModel.findById(iterator).exec();
+
+            console.log('orderItems');
+            console.log(orderItems);
+            
 
             orderItems.order = saveOrder._id;
 
@@ -116,17 +118,17 @@ exports.store = async (req, res, next) => {
 }
 
 exports.all = async (req, res, next) => {
-   
+    
     try {
-        const orders = await ordersModel.find(req.query).populate(populate).exec();
+        const orders = await ordersModel.find().populate(populateObject).exec();
 
 
-        res.json({
-            message: 'orders trouvée avec succes',
-            status: 'OK',
-            data: orders,
-            statusCode: 200
-        })
+        return  res.json({
+              message: 'orders trouvée avec succes',
+              status: 'OK',
+              data: orders,
+              statusCode: 200
+          })
     } catch (error) {
         res.json({
             message: 'orders non trouvée',
