@@ -20,6 +20,12 @@ const populateObject =[{
                     path: 'pack_price'
                 }
             ]
+        },
+        {
+            path: 'livraison',
+            populate :  {
+                path  : 'point'
+            }
         }
     ]
 },{
