@@ -185,7 +185,7 @@ exports.allByShop = async (req, res, next) => {
         });
 
         res.json({
-            message: 'orders trouvée avec succes',
+            message: 'orders trouvées avec succes',
             status: 'OK',
             data: v.filter(e => {
                 if (e.items.length > 0) {

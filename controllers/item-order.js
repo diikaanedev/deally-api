@@ -47,9 +47,11 @@ exports.store = async (req, res ,next ) => {
 
             item.quantite = quantite ;
 
-            item.typePaiment = typePaiment ;
+            item.typePaiment = typePaiment =="micro" ;
 
             item.priceTotal = priceTotal ;
+
+            item.statusShop = typePaiment =="micro" ? "MICRO"  :"CREATE" ;
 
             item.client = req.user.id_user ;
 
@@ -128,7 +130,7 @@ exports.one = async (req  , res ,next ) => {
         res.status(400).json({
             message: 'clients non trouvée',
             status: 'OK',
-            data: err,
+            data: error,
             statusCode: 400
         })
     }
