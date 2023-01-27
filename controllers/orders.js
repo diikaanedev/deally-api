@@ -32,7 +32,75 @@ const populateObject =[{
 
 exports.store = async (req, res, next) => {
 
-    
+    console.log('body => ' , req.body);
+        
+       
+    let { items, price, livraison , typePaiment  , paiStatus } = req.body;
+
+    const orderss = await ordersModel.find({}).exec();
+
+    var dt = dateTime.create();
+
+    dt.format('m/d/Y');
+
+    var bd = new Date(dt.now()).toISOString().toString();
+
+    var d = bd.split('-')[0].substring(2)+ bd.split('-')[1].substring(0)+ bd.split('-')[2].split('T')[0].substring(0) + (orderss.length+1)  ;
+
+    const order = ordersModel();
+
+    const id = orderid.generate();
+
+    order.items = items;
+
+    order.price = price;
+
+    order.client = req.user.id_user;
+
+    order.livraison = livraison;
+
+    order.reference = d;
+
+    order.typePaiment =  typePaiment 
+
+
+    const saveOrder = await order.save();
+
+    console.log(saveOrder._id);
+
+
+    for (const iterator of items) {
+
+        const orderItems = await ordersItemsModel.findById(iterator).exec();
+
+        console.log('orderItems');
+        console.log(orderItems);
+        
+
+        orderItems.order = saveOrder._id;
+
+        orderItems.statusClient = typePaiment == 0 ? paiStatus == "true" ? "PAY" : "FAILED" : "CREATE";
+
+        orderItems.livraison = livraison;
+
+        orderItems.typePaiment =  typePaiment 
+
+        orderItems.reference = d;
+        
+        // orderItems.referencePay = refPaid!=undefined ? refPaid : ""  ;
+
+        const n = await orderItems.save();
+
+    }
+
+    const saveFind =  await ordersModel.findById(saveOrder._id).populate(populateObject).exec();
+
+    return res.json({
+        message: 'order crée avec succes',
+        status: 'OK',
+        data: saveFind,
+        statusCode: 201
+    })
 
     try {
 

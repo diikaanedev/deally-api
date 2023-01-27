@@ -47,11 +47,16 @@ exports.store = async (req, res ,next ) => {
 
             item.quantite = quantite ;
 
-            item.typePaiment = typePaiment =="micro" ;
+            item.typePaiment = typePaiment  ;
 
             item.priceTotal = priceTotal ;
+            
+            if (typePaiment =="micro") {
+                item.statusShop = "MICRO";
+            }else {
+                item.statusShop = "CREATE";
 
-            item.statusShop = typePaiment =="micro" ? "MICRO"  :"CREATE" ;
+            }
 
             item.client = req.user.id_user ;
 
