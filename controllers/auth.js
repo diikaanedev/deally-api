@@ -311,6 +311,104 @@ exports.addWholeSeller = async (req,res,next)=> {
    
 }
 
+exports.addUsine = async (req,res,next)=> {
+
+    
+
+    try {
+        const findUser = await authModel.findById(req.user.id_user).exec();
+
+        const auth = authModel() ;
+    
+        const d =new Date();
+    
+        console.log('req.accessToken',req.accessToken);
+        
+    
+        if (findUser) {
+    
+            const authFind = await  authModel.findOne({
+                phone : req.body.phone
+            }).exec();
+            console.log('authFind',authFind);
+            if (authFind!=null) {
+                authFind.fournisseur.push(req.user.id_user);
+                authFind.contry = req.body.contry;
+                authFind.matricule.push("WH-"+findUser.nameShop+"-"+req.body.contry);
+                const authSave = await authFind.save();
+    
+                var data = JSON.stringify({
+                    "outboundSMSMessageRequest": {
+                        "address": "tel:"+req.body.phone,
+                        "senderAddress": "tel:+224626501651",
+                        "senderName": "Deally-"+findUser.nameShop ,
+                        "outboundSMSTextMessage": {
+                        "message": "Votre fournisseur "+findUser.nameShop +" de Deally vous à inscrit comme responsable usine ."
+                        }
+                    }
+                    });
+            
+                    var config = {
+                    method: 'post',
+                    url: 'https://api.orange.com/smsmessaging/v1/outbound/tel:+224626501651/requests',
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        'Authorization': 'Bearer '+req.accessToken
+                    },
+                    data : data
+                    };
+            
+                    axiosOrange(config)
+                    .then(function (response) {
+                        const obj = Object.assign(response.data);
+                       return  res.status(201).json({
+                            message: 'code envoyé avec success ',
+                            status: 'OK',
+                            data: authSave,
+                            statusCode: 201
+                        })
+                    })
+                    .catch(function (error) {
+                       return res.status(404).json({
+                            message: 'erreur envoie sms phone déjas utilisé ',
+                            status: 'OK',
+                            data: error,
+                            statusCode: 404
+                        })
+                    });
+    
+    
+            
+                    
+    
+                
+            } 
+            
+            
+        
+    
+        } else {
+            
+        return res.status(404).json({
+            message: 'Erreur création',
+            statusCode: 404,
+            data:  "erreur de creation user not found",
+            status: 'NOT OK'
+          });
+        }
+    } catch (error) {
+        return res.status(404).json({
+            message: 'Erreur création',
+            statusCode: 404,
+            data:  error,
+            status: 'NOT OK'
+          });
+    }
+   
+
+   
+}
+
 exports.getWholeSeller = async (req, res, next) => {
     
     try {
