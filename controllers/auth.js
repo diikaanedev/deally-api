@@ -443,6 +443,9 @@ exports.getWholeSeller = async (req, res, next) => {
     
     try {
         const wholeSellers = await authModel.find({
+            role : {
+                $eq :  "grossiste"
+            },
             fournisseur :{
                 $elemMatch : {$eq:ObjectID(req.user.id_user)}
             }}).exec();
@@ -468,6 +471,9 @@ exports.getUsine = async (req, res, next) => {
     
     try {
         const wholeSellers = await authModel.find({
+            role : {
+                $eq :  "usine"
+            },
             fournisseur :{
                 $elemMatch : {$eq:ObjectID(req.user.id_user)}
             }}).populate({
