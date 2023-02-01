@@ -138,6 +138,12 @@ const UserModel = new Schema({
         ref: "order"
     }],
 
+    ordersItems : [{
+        type: Schema.Types.ObjectId,
+        ref: "item-order",
+        default :[]
+    }],
+
     transactions : [{
         type: Schema.Types.ObjectId,
         ref: "transaction"

@@ -2,6 +2,8 @@ const itemOrerModel = require('../models/order-item');
 
 const productModel = require('../models/product');
 
+const authModel  = require('../models/auth');
+
 const populateObject = [{
     path: 'product',
     populate :  [
@@ -222,28 +224,32 @@ exports.update = async  (req  , res ,next ) => {
     } 
 
     if (statusShop != undefined) {
+        
         item.statusShop = statusShop;
     } 
 
     if (statusClient!=undefined) {
+
+       
+
         item.statusClient = statusClient;
     }   
 
-    item.save().then(result => {
-        res.status(200).json({
+        const itemSave = await item.save();
+
+        if (statusShop =="PREPARING") {
+            const  user = await authModel.findById(req.body.usine).exec();
+            user.ordersItems.push(itemSave._id);
+            const  userUpdate = await user.save();
+        }
+
+      return  res.status(200).json({
             message: 'mise à jour réussi',
             status: 'OK',
-            data: result,
+            data: itemSave,
             statusCode: 200
         });
-    }).catch(err => {
-        res.status(400).json({
-            message: 'erreur mise à jour ',
-            statusCode: 404,
-            data: err,
-            status: 'NOT OK'
-        });
-    });
+    
 
 
 
