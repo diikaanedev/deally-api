@@ -365,6 +365,15 @@ exports.addUsine = async (req,res,next)=> {
             auth.token = token; 
     
             const authSave = await auth.save();
+
+            const authFd =  await authModel.findById(authSave._id).populate([
+                {
+                    path :"address",
+                    populate : {
+                        path: 'point',
+                    }
+                }
+            ]).exec();
     
             var data = JSON.stringify({
         "outboundSMSMessageRequest": {
@@ -393,7 +402,7 @@ exports.addUsine = async (req,res,next)=> {
             res.status(201).json({
                 message: 'code envoyé avec success ',
                 status: 'OK',
-                data: authSave,
+                data: authFd,
                 statusCode: 201
             })
         })
@@ -437,6 +446,36 @@ exports.getWholeSeller = async (req, res, next) => {
             fournisseur :{
                 $elemMatch : {$eq:ObjectID(req.user.id_user)}
             }}).exec();
+    
+        return res.status(200).json({
+            message: 'listes wholeseller  ',
+            statusCode: 200,
+            data: wholeSellers,
+            status: 'OK'
+          });
+    } catch (error) {
+       return res.status(404).json({
+            message: 'erreur mise à jour ',
+            statusCode: 404,
+            data: error,
+            status: 'NOT OK'
+          });
+    }
+}
+
+
+exports.getUsine = async (req, res, next) => {
+    
+    try {
+        const wholeSellers = await authModel.find({
+            fournisseur :{
+                $elemMatch : {$eq:ObjectID(req.user.id_user)}
+            }}).populate({
+                path :"address",
+                populate : {
+                    path: 'point',
+                }
+            }).exec();
     
         return res.status(200).json({
             message: 'listes wholeseller  ',
