@@ -166,6 +166,34 @@ exports.panierClient = async (req  , res ,next ) => {
     }
 }
 
+exports.orderUsine = async (req  , res ,next ) => {
+   
+
+    
+    try {
+    
+        const user = await authModel.findById(req.user.id_user).populate({
+            path  :'ordersItems',
+            populate :populateObject
+        }).exec();
+    
+        return res.status(200).json({
+            message: 'item trouvée avec succes',
+            status: 'OK',
+            data: user.ordersItems,
+            statusCode: 200
+        }) 
+    } catch (error) {
+        res.status(400).json({
+            message: 'item non trouvée',
+            status: 'OK',
+            data: error,
+            statusCode: 400
+        })
+    }
+}
+
+
 exports.orderClient = async (req  , res ,next ) => {
    
     try {

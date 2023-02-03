@@ -51,9 +51,14 @@ const postModel = new Schema({
         type: String
     },
 
-    quantite_per_article : {
-        type : String ,
-        default :"1"
+    unite_per_pack : {
+        type : Number ,
+        default : 12
+    },
+
+    pack_per_pallete : {
+        type : Number,
+        default : 10
     },
 
 

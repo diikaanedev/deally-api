@@ -41,6 +41,10 @@ const itemOrdersModel = new Schema({
         default :''
     },
 
+    preparating_pourcentage:{
+        type:Number,
+        default :50
+    },
 
     statusShop : {
         type: String,

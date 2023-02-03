@@ -9,6 +9,7 @@ const routes = express.Router();
 
 // Add routes
 routes.get('/' ,itemOrderCtrl.panierClient);
+routes.get('/usine' ,itemOrderCtrl.orderUsine);
 routes.get('/orderClient' ,itemOrderCtrl.orderClient);
 routes.get('/orderShop' ,itemOrderCtrl.orderShop);
 routes.get('/:id' ,itemOrderCtrl.one);
