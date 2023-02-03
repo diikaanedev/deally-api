@@ -240,7 +240,7 @@ exports.orderShop = async (req  , res ,next ) => {
 }
 
 exports.update = async  (req  , res ,next ) => {
-    let   { quantite , statusShop , statusClient } = req.body ;
+    let   { quantite , statusShop , statusClient   , pourcentage} = req.body ;
 
     console.log(statusShop);
     
@@ -258,18 +258,22 @@ exports.update = async  (req  , res ,next ) => {
 
     if (statusClient!=undefined) {
 
-       
-
         item.statusClient = statusClient;
-    }   
+    }  
+    
+    if (pourcentage!=undefined) {
 
-        const itemSave = await item.save();
+        item.preparating_pourcentage = pourcentage;
+    }  
 
-        if (statusShop =="PREPARING") {
-            const  user = await authModel.findById(req.body.usine).exec();
-            user.ordersItems.push(itemSave._id);
-            const  userUpdate = await user.save();
-        }
+       
+    const itemSave = await item.save();
+
+    if (statusShop =="PREPARING") {
+        const  user = await authModel.findById(req.body.usine).exec();
+        user.ordersItems.push(itemSave._id);
+        const  userUpdate = await user.save();
+    }
 
       return  res.status(200).json({
             message: 'mise à jour réussi',
