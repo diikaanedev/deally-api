@@ -16,6 +16,7 @@ const populateObject = [{
 exports.add = async (req ,res ,next)=> {
 
     
+    
         try {
 
             const {
@@ -33,9 +34,9 @@ exports.add = async (req ,res ,next)=> {
                 assuranceNumber,
                 assurannceDate
             }  =  req.body;
-
+        
                 const  car  = carModel();
-
+        
                 car.cover  = cover;
                 car.assuranceFile =assuranceFile;
                 car.licenceFile = licenceFile;
@@ -49,11 +50,11 @@ exports.add = async (req ,res ,next)=> {
                 car.assuranceNumber  = assuranceNumber;
                 car.assurannceDate  = assurannceDate;
                 car.user = req.user.id_user;
-
-                const carSave = car.save();
-
-                const carFind =  await carModel.findById(carSave._id).populate(populateObject).excec();
-
+        
+                const carSave = await   car.save();
+                console.log(carSave);
+                const carFind =  await carModel.findById(carSave._id).populate(populateObject).exec();
+        
                 return  res.status(201).json({
                     message: 'car créeer avec success ',
                     status: 'OK',
@@ -82,7 +83,7 @@ exports.all = async  (req, res , next) => {
 
     try {
 
-        const  carFind = await  carModel.find({}).populate(populateObject).excec();
+        const  carFind = await  carModel.find({}).populate(populateObject).exec();
         
         return  res.status(200).json({
             message: 'car find avec success ',
@@ -106,7 +107,7 @@ exports.one = async  (req, res , next) => {
 
     try {
 
-        const  carFind = await  carModel.findById(req.query.id).populate(populateObject).excec();
+        const  carFind = await  carModel.findById(req.query.id).populate(populateObject).exec();
         
         return  res.status(200).json({
             message: 'car find avec success ',
@@ -132,7 +133,7 @@ exports.allByUser = async (req,res,next )  => {
 
         const  carFind = await  carModel.find({
             user  : req.user.id_user
-        }).populate(populateObject).excec();
+        }).populate(populateObject).exec();
         
         return  res.status(200).json({
             message: 'car find avec success ',
@@ -157,7 +158,7 @@ exports.update = async (req,res , next) => {
 
     try {
 
-        const  car = await carModel.findById(req.query.id).populate(populateObject).excec();
+        const  car = await carModel.findById(req.query.id).populate(populateObject).exec();
 
         const {
         
@@ -256,7 +257,7 @@ exports.update = async (req,res , next) => {
 
         const  carSave  = await  car.save();
 
-        const carFind = await  carModel.findById(carSave._id).populate(populateObject).excec();
+        const carFind = await  carModel.findById(carSave._id).populate(populateObject).exec();
 
         return  res.status(200).json({
             message: 'car update avec success ',
@@ -280,7 +281,7 @@ exports.update = async (req,res , next) => {
 exports.delete =  async (req,res  ,next)  => {
     try {
         
-        const carFind = await  carModel.findById(req.query.id).populate(populateObject).excec();
+        const carFind = await  carModel.findById(req.query.id).populate(populateObject).exec();
 
         carFind.enLigne = "2";
 

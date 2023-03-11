@@ -7,23 +7,23 @@ const carModel = new Schema({
 
     cover : {
         type: Schema.Types.ObjectId,
-        ref :'file'
+        ref :'media'
     },
 
     assuranceFile : {
         type: Schema.Types.ObjectId,
-        ref :'file'
+        ref :'media'
     },
 
     licenceFile : {
         type: Schema.Types.ObjectId,
-        ref :'file'
+        ref :'media'
     },
 
     categorie : {
         type: String,
         enum: ['van', 'camion','taxi','moto','particulier'],
-        default: 'livraison'
+        default: 'van'
     },
 
     longeur  : {
