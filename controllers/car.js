@@ -29,6 +29,7 @@ exports.add = async (req ,res ,next)=> {
                 largeur,
                 hauteur,
                 marque,
+                matricule,
                 model,
                 carteGriseNumber,
                 assuranceNumber,
@@ -43,6 +44,7 @@ exports.add = async (req ,res ,next)=> {
                 car.categorie  =  categorie;
                 car.longeur =longeur;
                 car.largeur =largeur;
+                car.matricule =matricule;
                 car.hauteur=hauteur;
                 car.marque= marque;
                 car.model  =model;
@@ -170,6 +172,7 @@ exports.update = async (req,res , next) => {
             largeur,
             hauteur,
             marque,
+            matricule,
             model,
             carteGriseNumber,
             assuranceNumber,
@@ -180,6 +183,12 @@ exports.update = async (req,res , next) => {
         if (cover != undefined) {
 
             car.cover  =  cover;
+            
+        }
+
+        if (matricule != undefined) {
+
+            car.matricule  =  matricule;
             
         }
 

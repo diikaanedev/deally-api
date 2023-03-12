@@ -31,6 +31,11 @@ const carModel = new Schema({
         default : ''
     },
 
+    matricule  : {
+        type : String,
+        default : ''
+    },
+
     largeur  : {
         type : String,
         default : ''
