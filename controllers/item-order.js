@@ -211,6 +211,7 @@ exports.orderTransport  =  async ( req, res ,next) =>  {
             shop : {
                 $in : user.societe_livraison
             },
+            statusShop :"DEBUT_TRANSPORT"
         }).populate(populateObject).exec(); 
 
         return res.status(200).json({
