@@ -210,7 +210,8 @@ exports.orderTransport  =  async ( req, res ,next) =>  {
         const item = await itemOrerModel.find({
             shop : {
                 $in : user.societe_livraison
-            }
+            },
+            statusShop : 'DEBUT_TRANSPORT'
         }).populate(populateObject).exec(); 
 
         return res.status(200).json({
