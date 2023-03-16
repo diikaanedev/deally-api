@@ -23,6 +23,16 @@ const populateObject = [{
     populate :  {
         path :'point'
     }
+},{
+    path : 'usine',
+    select :'address',
+    populate  :  {
+        path:'address',
+        populate : {
+            path:'point'
+        }
+    }
+    
 }];
 
 exports.store = async (req, res ,next ) => {
