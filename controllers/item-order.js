@@ -193,6 +193,10 @@ exports.orderUsine = async (req  , res ,next ) => {
     }
 }
 
+exports.orderTransport  =  async ( req, res ,next) =>  {
+    
+}
+
 
 exports.orderClient = async (req  , res ,next ) => {
    

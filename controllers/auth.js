@@ -439,6 +439,95 @@ exports.addUsine = async (req,res,next)=> {
    
 }
 
+
+exports.addCompagnieTransport = async (req,res,next)=> {
+
+    
+
+    try {
+        const findUser = await authModel.findById(req.user.id_user).exec();
+
+        const auth = authModel() ;
+    
+        const d =new Date();
+    
+        console.log('req.accessToken',req.accessToken);
+        
+    
+        if (findUser) {
+    
+            const authFind = await  authModel.findOne({
+                phone : req.body.phone
+            }).exec();
+            console.log('authFind',authFind);
+            const passwordCrypt = bcrytjs.hashSync(findUser.nameShop+"@"+d.getFullYear().toString(), salt);
+                
+            auth.phone = req.body.phone ;
+    
+            auth.nameShop = req.body.nameShop ;
+    
+            auth.firstName = req.body.firstName ;
+    
+            auth.fournisseur = [req.user.id_user] ;
+    
+            auth.lastName = req.body.lastName ;
+    
+            auth.address = req.body.address ;
+    
+            auth.contry = req.body.contry;
+    
+            auth.matricule.push("TR-"+findUser.nameShop+"-"+req.body.contry);
+    
+            auth.role = "transporteur";
+        
+            auth.password =  passwordCrypt ;
+    
+            auth.passwords = [passwordCrypt];
+    
+        
+            const token = jwt.sign({
+                id_user: auth._id,
+                roles_user : auth.role , 
+                phone_user : auth.phone
+            }, process.env.JWT_SECRET, { expiresIn: '8784h' });
+        
+            auth.token = token; 
+    
+            const authSave = await auth.save();
+
+           return res.status(201).json({
+                message: 'code envoyé avec success ',
+                status: 'OK',
+                data: authSave,
+                statusCode: 201
+            });
+
+        
+    
+        } else {
+            
+        return res.status(404).json({
+            message: 'Erreur création',
+            statusCode: 404,
+            data:  "erreur de creation user not found",
+            status: 'NOT OK'
+          });
+        }
+    } catch (error) {
+        return res.status(404).json({
+            message: 'Erreur création',
+            statusCode: 404,
+            data:  error,
+            status: 'NOT OK'
+          });
+    }
+   
+
+   
+}
+
+
+
 exports.getWholeSeller = async (req, res, next) => {
     
     try {
@@ -467,10 +556,38 @@ exports.getWholeSeller = async (req, res, next) => {
 }
 
 
-exports.getUsine = async (req, res, next) => {
+exports.getTransporteur = async (req, res, next) => {
     
     try {
         const wholeSellers = await authModel.find({
+            role : {
+                $eq :  "transporteur"
+            },
+            fournisseur :{
+                $elemMatch : {$eq:ObjectID(req.user.id_user)}
+            }}).exec();
+    
+        return res.status(200).json({
+            message: 'listes societe de transport  ',
+            statusCode: 200,
+            data: wholeSellers,
+            status: 'OK'
+          });
+    } catch (error) {
+       return res.status(404).json({
+            message: 'erreur mise à jour ',
+            statusCode: 404,
+            data: error,
+            status: 'NOT OK'
+          });
+    }
+}
+
+
+exports.getUsine = async (req, res, next) => {
+    
+    try {
+        const transporteurs = await authModel.find({
             role : {
                 $eq :  "usine"
             },
@@ -486,7 +603,7 @@ exports.getUsine = async (req, res, next) => {
         return res.status(200).json({
             message: 'listes wholeseller  ',
             statusCode: 200,
-            data: wholeSellers,
+            data: transporteurs,
             status: 'OK'
           });
     } catch (error) {

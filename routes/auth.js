@@ -16,6 +16,8 @@ routes.post('/validNumber' , getToken , authCtrl.verifNumberValid);
 routes.post('/add-grossite' , authMidleweare,getToken , authCtrl.addWholeSeller);
 routes.post('/add-usine' , authMidleweare,getToken , authCtrl.addUsine);
 routes.get('/grossites' , authMidleweare , authCtrl.getWholeSeller);
+routes.post('/add-compagnie' , authMidleweare,getToken , authCtrl.addCompagnieTransport);
+routes.get('/compagnies' , authMidleweare , authCtrl.getTransporteur);
 routes.get('/usines' , authMidleweare , authCtrl.getUsine);
 routes.post('/validCode' , authCtrl.verifCode);
 routes.post('/', authCtrl.store);

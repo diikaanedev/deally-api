@@ -26,6 +26,13 @@ const UserModel = new Schema({
         type: String,
     },
     
+    societe_livraison: {
+        type: Schema.Types.ObjectId,
+        ref: "users",
+        default : []
+    },
+
+
     password: {
         type: String,
     },
