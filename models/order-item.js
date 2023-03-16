@@ -31,6 +31,12 @@ const itemOrdersModel = new Schema({
         ref :'place'
     },
 
+    usine : {
+        type: Schema.Types.ObjectId,
+        ref :'users',
+        default :undefined
+    },
+
     reference : {
         type : String,
         default :''

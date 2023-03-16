@@ -12,6 +12,7 @@ routes.get('/' ,itemOrderCtrl.panierClient);
 routes.get('/usine' ,itemOrderCtrl.orderUsine);
 routes.get('/orderClient' ,itemOrderCtrl.orderClient);
 routes.get('/orderShop' ,itemOrderCtrl.orderShop);
+routes.get('/orderTransport' ,itemOrderCtrl.orderTransport);
 routes.get('/:id' ,itemOrderCtrl.one);
 routes.post('/' , itemOrderCtrl.store);
 routes.put('/:id' , itemOrderCtrl.update);
