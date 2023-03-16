@@ -443,8 +443,9 @@ exports.addUsine = async (req,res,next)=> {
 exports.addCompagnieTransport = async (req,res,next)=> {
 
     
-
+    
     try {
+        
         const findUser = await authModel.findById(req.user.id_user).exec();
 
         const auth = authModel() ;
@@ -459,7 +460,9 @@ exports.addCompagnieTransport = async (req,res,next)=> {
             const authFind = await  authModel.findOne({
                 phone : req.body.phone
             }).exec();
-            console.log('authFind',authFind);
+
+            
+
             const passwordCrypt = bcrytjs.hashSync(findUser.nameShop+"@"+d.getFullYear().toString(), salt);
                 
             auth.phone = req.body.phone ;
@@ -468,7 +471,7 @@ exports.addCompagnieTransport = async (req,res,next)=> {
     
             auth.firstName = req.body.firstName ;
     
-            auth.fournisseur = [req.user.id_user] ;
+            auth.societe_livraison = [req.user.id_user] ;
     
             auth.lastName = req.body.lastName ;
     
@@ -495,15 +498,15 @@ exports.addCompagnieTransport = async (req,res,next)=> {
     
             const authSave = await auth.save();
 
+
            return res.status(201).json({
-                message: 'code envoyé avec success ',
+                message: 'code envoyé avec success',
                 status: 'OK',
                 data: authSave,
                 statusCode: 201
             });
 
         
-    
         } else {
             
         return res.status(404).json({
@@ -513,6 +516,7 @@ exports.addCompagnieTransport = async (req,res,next)=> {
             status: 'NOT OK'
           });
         }
+
     } catch (error) {
         return res.status(404).json({
             message: 'Erreur création',
@@ -563,7 +567,7 @@ exports.getTransporteur = async (req, res, next) => {
             role : {
                 $eq :  "transporteur"
             },
-            fournisseur :{
+            societe_livraison :{
                 $elemMatch : {$eq:ObjectID(req.user.id_user)}
             }}).exec();
     
